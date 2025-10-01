@@ -37,6 +37,7 @@ export default function LoginForm() {
 
   return (
     <form className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+        <h1 className="text-3xl font-bold mb-6">こんにちは！</h1>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="idnumber">
           ID番号
@@ -61,7 +62,9 @@ export default function LoginForm() {
           id="password"
           type="password"
           maxLength={4}
-          onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) =>
+                setPin(e.target.value.replace(/[^a-zA-Z0-9]/g, ''))
+            }
           value={pin}
           placeholder="暗証番号を入力"
         />

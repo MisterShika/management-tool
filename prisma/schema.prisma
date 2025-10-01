@@ -23,7 +23,9 @@ model User {
   id        Int         @id @default(autoincrement())  // user ID
   userCode  String      @unique @db.VarChar(4)
   firstName String
+  firstNameFurigana String
   lastName  String
+  lastNameFurigana String
   pin       String      @db.VarChar(4) 
   access    AccessLevel @default(STAFF)             // default to STAFF
   createdAt DateTime @default(now())

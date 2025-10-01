@@ -3,9 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import LoginForm from '@/components/LoginForm';
-import LogoutButton from '@/components/LogoutButton';
 import Loading from '@/components/Loading';
-import MainMenu from '@/components/MainMenu';
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -37,9 +35,7 @@ export default function Home() {
         <Loading />
       ) : user ? (
         <div>
-          <p>Logged in as user {user.id} with access {user.access}</p>
-          <MainMenu />
-          <LogoutButton onLogout={() => setUser(null)} />
+          Staff Info
         </div>
       ) : (
         
