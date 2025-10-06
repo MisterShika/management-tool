@@ -7,6 +7,11 @@ export default function MainMenu() {
                 buttonTitle="スタッフ"
                 link="/staff"
             />
+            <MenuButton 
+                buttonTitle="生徒"
+                link="/students"
+                buttonColor="bg-green-500"
+            />
         </nav>
     )
 }

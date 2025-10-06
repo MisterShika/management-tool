@@ -8,6 +8,7 @@
     "start": "next start",
     "userSeed": "node prisma/userSeed.js",
     "studentSeed": "node prisma/studentSeed.js",
+    "clearStudents": "node prisma/clearStudents.js",
     "lint": "eslint"
   },
   "dependencies": {
