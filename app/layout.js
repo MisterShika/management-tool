@@ -1,6 +1,7 @@
 import "./globals.css";
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import AuthWrapper from "@/components/AuthWrapper";
 
 export default function RootLayout({ children }) {
   return (
@@ -8,7 +9,9 @@ export default function RootLayout({ children }) {
       <body className="min-h-screen flex flex-col items-center justify-center">
         <Header />
         <main className="flex flex-col items-center  flex-1 w-full p-4">
-          {children}
+          <AuthWrapper>
+            {children}
+          </AuthWrapper>
         </main>
         <Footer />
       </body>

@@ -18,9 +18,9 @@ export default function Header() {
             />
             <span className="">カムカム</span>
             {isHome ? (
-                <h1>Home</h1>
+                <h1>Home Page</h1>
             ) : (
-                <div>Not Home</div>
+                <div>Not Home Page</div>
             )}
         </header>
     )
