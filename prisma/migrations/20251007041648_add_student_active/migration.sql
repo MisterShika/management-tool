@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Student" ADD COLUMN     "color" TEXT NOT NULL DEFAULT '#000000',
+ADD COLUMN     "isActive" BOOLEAN NOT NULL DEFAULT true;

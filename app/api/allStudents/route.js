@@ -16,6 +16,7 @@ export async function GET() {
         school: true,
         grade: true,
         gender: true,
+        isActive: true,
       },
       orderBy: {
         lastNameFurigana: 'asc', // sorts alphabetically by furigana
