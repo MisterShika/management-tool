@@ -1,15 +1,39 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 import AddVisit from "@/components/AddVisit";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-export default function BigCalendarWithModal({ events = [] }) {
+export default function CalendarPage() {
+  const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  // Format date to YYYY-MM-DD in local timezone
+  // Fetch events from DB
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch("/api/allVisits");
+      if (!res.ok) throw new Error("Failed to fetch visits");
+      const data = await res.json();
+      setEvents(
+        data.map((v) => ({
+          id: v.id,
+          date: v.date,
+          title: `${v.student.lastName} ${v.student.firstName}`,
+        }))
+      );
+    } catch (err) {
+      console.error("Failed to fetch events:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
   const formatDateLocal = (date) => {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -35,7 +59,7 @@ export default function BigCalendarWithModal({ events = [] }) {
 
   return (
     <div className="p-4 flex flex-col items-center">
-      <h2 className="mb-4 text-2xl font-bold">Visits Calendar</h2>
+      <h2 className="mb-4 text-2xl font-bold">カレンダー</h2>
 
       <Calendar
         onChange={setDate}
@@ -47,12 +71,11 @@ export default function BigCalendarWithModal({ events = [] }) {
 
           return (
             <div className="relative w-full h-full flex flex-col items-center">
-              {/* Events list */}
               {dayEvents.length > 0 && (
                 <ul className="mt-1 w-full">
-                  {dayEvents.map((e, i) => (
+                  {dayEvents.map((e) => (
                     <li
-                      key={i}
+                      key={e.id}
                       className="text-xs bg-blue-500 text-white rounded px-1 mb-1 truncate text-center"
                     >
                       {e.title}
@@ -61,12 +84,11 @@ export default function BigCalendarWithModal({ events = [] }) {
                 </ul>
               )}
 
-              {/* Hover/active Add Event */}
               <span
                 onClick={() => handleOpenModal(tileDate)}
-                className="add-event-btn absolute bottom-1 px-1 py-0.5 text-xs bg-green-500 text-white rounded cursor-pointer opacity-0 transition-opacity duration-200"
+                className="add-event-btn absolute bottom-1 right-1 w-6 h-6 flex items-center justify-center bg-green-500 text-white rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
               >
-                + Add Event
+                <FontAwesomeIcon icon={faPlus} className="text-xs" />
               </span>
             </div>
           );
@@ -74,7 +96,6 @@ export default function BigCalendarWithModal({ events = [] }) {
         className="w-full max-w-6xl text-lg border rounded-lg shadow-lg"
       />
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
@@ -88,12 +109,12 @@ export default function BigCalendarWithModal({ events = [] }) {
             <AddVisit
               defaultDate={selectedDate ? formatDateLocal(selectedDate) : ""}
               onClose={handleCloseModal}
+              onSubmitSuccess={fetchEvents} // refresh calendar after adding
             />
           </div>
         </div>
       )}
 
-      {/* Global CSS */}
       <style jsx global>{`
         .react-calendar {
           width: 100%;

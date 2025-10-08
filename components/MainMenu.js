@@ -12,6 +12,11 @@ export default function MainMenu() {
                 link="/students"
                 buttonColor="bg-green-500"
             />
+            <MenuButton 
+                buttonTitle="カレンダー"
+                link="/calendar"
+                buttonColor="bg-purple-500"
+            />
         </nav>
     )
 }

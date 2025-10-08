@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import Loading from '@/components/Loading';
+
 
 export default function Staff() {
   const [users, setUsers] = useState([]);
@@ -21,7 +23,7 @@ export default function Staff() {
     fetchUsers();
   }, []);
 
-  if (loading) return <p>Loading users...</p>;
+  if (loading) return <Loading />;
 
   return (
     <div>

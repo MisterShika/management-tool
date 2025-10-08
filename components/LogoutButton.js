@@ -42,7 +42,7 @@ export default function LogoutButton() {
           ></path>
         </svg>
       )}
-      {loading ? "Logging out..." : "Logout"}
+      {loading ? "ログアウト中..." : "ログアウト"}
     </button>
   );
 }
