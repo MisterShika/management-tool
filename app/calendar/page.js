@@ -22,7 +22,8 @@ export default function CalendarPage() {
         data.map((v) => ({
           id: v.id,
           date: v.date,
-          title: `${v.student.lastName} ${v.student.firstName}`,
+          title: `${v.student.lastName}`,
+          color: v.student.color || "#000000",
         }))
       );
     } catch (err) {
@@ -64,6 +65,7 @@ export default function CalendarPage() {
       <Calendar
         onChange={setDate}
         value={date}
+        calendarType="gregory"
         tileContent={({ date: tileDate, view }) => {
           if (view !== "month") return null;
 
@@ -72,11 +74,12 @@ export default function CalendarPage() {
           return (
             <div className="relative w-full h-full flex flex-col items-center">
               {dayEvents.length > 0 && (
-                <ul className="mt-1 w-full">
+                <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-16">
                   {dayEvents.map((e) => (
                     <li
                       key={e.id}
-                      className="text-xs bg-blue-500 text-white rounded px-1 mb-1 truncate text-center"
+                      className="text-xs rounded px-1 mb-1 bg-white text-black"
+                      style={{ border: `2px solid ${e.color}`}}
                     >
                       {e.title}
                     </li>
@@ -86,7 +89,7 @@ export default function CalendarPage() {
 
               <span
                 onClick={() => handleOpenModal(tileDate)}
-                className="add-event-btn absolute bottom-1 right-1 w-6 h-6 flex items-center justify-center bg-green-500 text-white rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                className=""
               >
                 <FontAwesomeIcon icon={faPlus} className="text-xs" />
               </span>
@@ -118,30 +121,23 @@ export default function CalendarPage() {
       <style jsx global>{`
         .react-calendar {
           width: 100%;
-          font-size: 1.25rem;
+     
         }
         .react-calendar__tile {
-          height: 100px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: center;
-          padding: 5px;
-          position: relative;
+          height: 150px;
         }
         .react-calendar__tile--now {
-          background: #f0f9ff;
+ 
         }
         .react-calendar__tile--active {
-          background: #3b82f6;
-          color: white;
+      
         }
         .react-calendar__tile:hover .add-event-btn,
         .react-calendar__tile--active .add-event-btn {
-          opacity: 1;
+   
         }
         .react-calendar__month-view__days__day {
-          padding: 0 !important;
+         
         }
       `}</style>
     </div>

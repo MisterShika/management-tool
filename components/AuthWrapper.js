@@ -33,8 +33,8 @@ export default function AuthWrapper({ children }) {
   if (!user) return <LoginForm />;
 
   return (
-    <div>
+    <>
       {children}
-    </div>
+    </>
   );
 }
