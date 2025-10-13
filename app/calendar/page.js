@@ -12,10 +12,10 @@ export default function CalendarPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
 
-  // Fetch events from DB
-  const fetchEvents = async () => {
+  // Fetch events for a given month
+  const fetchEvents = async (year, month) => {
     try {
-      const res = await fetch("/api/allVisits");
+      const res = await fetch(`/api/allVisits?year=${year}&month=${month}`);
       if (!res.ok) throw new Error("Failed to fetch visits");
       const data = await res.json();
       setEvents(
@@ -32,7 +32,9 @@ export default function CalendarPage() {
   };
 
   useEffect(() => {
-    fetchEvents();
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1;
+    fetchEvents(y, m); // fetch current month on load
   }, []);
 
   const formatDateLocal = (date) => {
@@ -66,20 +68,25 @@ export default function CalendarPage() {
         onChange={setDate}
         value={date}
         calendarType="gregory"
+        onActiveStartDateChange={({ activeStartDate }) => {
+          const y = activeStartDate.getFullYear();
+          const m = activeStartDate.getMonth() + 1;
+          fetchEvents(y, m); // fetch events whenever month changes
+        }}
         tileContent={({ date: tileDate, view }) => {
           if (view !== "month") return null;
 
           const dayEvents = getEventsForDay(tileDate);
 
           return (
-            <div className="relative w-full h-full flex flex-col items-center">
+            <div className="relative w-full h-full flex flex-col items-center flex-end">
               {dayEvents.length > 0 && (
                 <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-16">
                   {dayEvents.map((e) => (
                     <li
                       key={e.id}
                       className="text-xs rounded px-1 mb-1 bg-white text-black"
-                      style={{ border: `2px solid ${e.color}`}}
+                      style={{ border: `2px solid ${e.color}` }}
                     >
                       {e.title}
                     </li>
@@ -87,10 +94,7 @@ export default function CalendarPage() {
                 </ul>
               )}
 
-              <span
-                onClick={() => handleOpenModal(tileDate)}
-                className=""
-              >
+              <span onClick={() => handleOpenModal(tileDate)} className="">
                 <FontAwesomeIcon icon={faPlus} className="text-xs" />
               </span>
             </div>
@@ -112,7 +116,11 @@ export default function CalendarPage() {
             <AddVisit
               defaultDate={selectedDate ? formatDateLocal(selectedDate) : ""}
               onClose={handleCloseModal}
-              onSubmitSuccess={fetchEvents} // refresh calendar after adding
+              onSubmitSuccess={() => {
+                const y = date.getFullYear();
+                const m = date.getMonth() + 1;
+                fetchEvents(y, m); // refresh current month after adding
+              }}
             />
           </div>
         </div>
@@ -121,23 +129,18 @@ export default function CalendarPage() {
       <style jsx global>{`
         .react-calendar {
           width: 100%;
-     
         }
         .react-calendar__tile {
           height: 150px;
         }
         .react-calendar__tile--now {
- 
         }
         .react-calendar__tile--active {
-      
         }
         .react-calendar__tile:hover .add-event-btn,
         .react-calendar__tile--active .add-event-btn {
-   
         }
         .react-calendar__month-view__days__day {
-         
         }
       `}</style>
     </div>

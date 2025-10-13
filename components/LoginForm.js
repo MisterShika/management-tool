@@ -98,7 +98,7 @@ export default function LoginForm() {
               ></path>
             </svg>
           ) : null}
-          {loading ? 'Logging in...' : 'ログイン'}
+          {loading ? 'ログイン中...' : 'ログイン'}
         </button>
       </div>
     </form>

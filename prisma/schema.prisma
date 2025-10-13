@@ -24,6 +24,8 @@ model User {
   pin                String      @db.VarChar(4)
   access             AccessLevel @default(STAFF)
   createdAt          DateTime    @default(now())
+  visitsAdded        Visit[]         @relation("UserAddedVisits")
+  reportsAdded       DailyReport[]   @relation("UserAddedReports")
 }
 
 enum Gender {
@@ -75,18 +77,28 @@ model Visit {
   studentId    Int
   date         DateTime
   status       VisitStatus        @default(PLANNED)
+  // This may seem strange but with how stuff works here it's necessary.
+  // Each day a primary lesson is planned, however some students work
+  // faster than others, so while one lesson is planned there can be 
+  // multiple completions.
   lesson       Lesson?            @relation(fields: [lessonId], references: [id])
   lessonId     Int?               // optional if no lesson for this visit
-  dailyReport  DailyReport?       // one-to-one relation
+  dailyReports DailyReport[]
   completions  LessonCompletion[] // back-relation for tracking lessons
+  addedBy      User?              @relation("UserAddedVisits", fields: [addedById], references: [id])
+  addedById    Int?
+  createdAt    DateTime @default(now())
 }
 
 /// Represents a report for a visit (e.g., how a student did that day)
 model DailyReport {
-  id       Int    @id @default(autoincrement())
-  visit    Visit  @relation(fields: [visitId], references: [id])
-  visitId  Int    @unique // ensures one report per visit
-  note     String
+  id           Int    @id @default(autoincrement())
+  visit        Visit  @relation(fields: [visitId], references: [id])
+  visitId      Int    @unique // ensures one report per visit
+  addedBy      User?        @relation("UserAddedReports", fields: [addedById], references: [id])
+  addedById    Int?
+  note         String
+  createdAt    DateTime @default(now())
 }
 
 /// Represents a lesson that can be assigned to a visit
@@ -94,6 +106,7 @@ model Lesson {
   id          Int                @id @default(autoincrement())
   name        String
   description String?
+  url         String?
   visits      Visit[]            // back-relation
   completions LessonCompletion[] // back-relation for tracking completions
 }

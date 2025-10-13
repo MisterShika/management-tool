@@ -2,22 +2,24 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // GET → fetch all visits
-export async function GET() {
-  try {
-    const visits = await prisma.visit.findMany({
-      include: {
-        student: true,
-        lesson: true,
-        dailyReport: true,
-      },
-      orderBy: { date: "desc" },
-    });
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const year = parseInt(searchParams.get("year"));
+  const month = parseInt(searchParams.get("month"));
 
-    return NextResponse.json(visits);
-  } catch (error) {
-    console.error("Error fetching visits:", error);
-    return NextResponse.json({ error: "Failed to fetch visits" }, { status: 500 });
-  }
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month, 0, 23, 59, 59);
+
+  const visits = await prisma.visit.findMany({
+    where: { date: { gte: start, lte: end } },
+    include: { student: true, lesson: true },
+    orderBy: { date: "asc" },
+  });
+
+  return new Response(JSON.stringify(visits), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 // POST → create a new visit
