@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import Loading from '@/components/Loading';
+import { useUser } from "@/components/UserContext";
 
 
 export default function Staff() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const user = useUser();
 
   useEffect(() => {
     async function fetchUsers() {
@@ -24,6 +26,7 @@ export default function Staff() {
   }, []);
 
   if (loading) return <Loading />;
+  if (user?.access !== "ADMIN") return <div><h2>アクセスが拒否されました</h2></div>;
 
   return (
     <div>

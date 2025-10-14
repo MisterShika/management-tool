@@ -1,1 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200&display=swap');
 @import "tailwindcss";
+
+:root {
+  --color-1: #3b82f6;
+  --color-2: #fbbf24;
+  --color-3: #fef3c7;
+  --color-4: #fef3c7;
+  --color-5: #fef3c7;
+}

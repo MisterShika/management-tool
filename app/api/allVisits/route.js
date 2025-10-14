@@ -38,12 +38,12 @@ export async function POST(request) {
         date: new Date(date),
         status: status || "PLANNED",
         lesson: lessonId ? { connect: { id: lessonId } } : undefined,
-        dailyReport: note ? { create: { note } } : undefined,
+        dailyReports: note ? { create: { note } } : undefined,
       },
       include: {
         student: true,
         lesson: true,
-        dailyReport: true,
+        dailyReports: true,
       },
     });
 

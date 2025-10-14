@@ -79,23 +79,27 @@ export default function CalendarPage() {
           const dayEvents = getEventsForDay(tileDate);
 
           return (
-            <div className="relative w-full h-full flex flex-col items-center flex-end">
-              {dayEvents.length > 0 && (
-                <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-16">
-                  {dayEvents.map((e) => (
-                    <li
-                      key={e.id}
-                      className="text-xs rounded px-1 mb-1 bg-white text-black"
-                      style={{ border: `2px solid ${e.color}` }}
-                    >
-                      {e.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className="w-full flex flex-col items-center flex-end flex-1 justify-between">
+              <div className="flex flex-1 w-full">
+                {dayEvents.length > 0 && (
+                  <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-16">
+                    {dayEvents.map((e) => (
+                      <li
+                        key={e.id}
+                        className="text-xs rounded px-1 mb-1 bg-white text-black"
+                        style={{ border: `2px solid ${e.color}` }}
+                      >
+                        {e.title}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
 
-              <span onClick={() => handleOpenModal(tileDate)} className="">
-                <FontAwesomeIcon icon={faPlus} className="text-xs" />
+              <span className="addEventSpan flex w-full justify-end">
+                <span onClick={() => handleOpenModal(tileDate)} className="w-4 h-4 bg-emerald-500 flex items-center justify-center rounded-full">
+                  <FontAwesomeIcon icon={faPlus} className="text-white text-sm" />
+                </span>
               </span>
             </div>
           );
@@ -107,7 +111,7 @@ export default function CalendarPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 flex "
               onClick={handleCloseModal}
             >
               ✖
@@ -127,11 +131,24 @@ export default function CalendarPage() {
       )}
 
       <style jsx global>{`
+        .addEventSpan{
+          opacity: 0;
+        }
         .react-calendar {
           width: 100%;
         }
         .react-calendar__tile {
+          display: flex; 
+          justify-content: space-between; 
+          align-content: flex-end; 
+          box-sizing: border-box;
           height: 150px;
+          flex-direction: column;
+          border: 1px solid #ddd !important;
+        }
+        .react-calendar__tile:hover .addEventSpan {
+          opacity: 1;
+          cursor: pointer;
         }
         .react-calendar__tile--now {
         }
@@ -141,6 +158,9 @@ export default function CalendarPage() {
         .react-calendar__tile--active .add-event-btn {
         }
         .react-calendar__month-view__days__day {
+        }
+        .react-calendar__month-view__days__day--weekend{
+          background: #f0f8ff;
         }
       `}</style>
     </div>

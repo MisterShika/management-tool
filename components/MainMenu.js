@@ -1,12 +1,19 @@
+"use client";
+
 import MenuButton from './MenuButton';
+import { useUser } from "@/components/UserContext";
 
 export default function MainMenu() {
+    const user = useUser();
+
     return(
         <nav>
-            <MenuButton 
-                buttonTitle="スタッフ"
-                link="/staff"
-            />
+            {user?.access === "ADMIN" && (
+                <MenuButton
+                    buttonTitle="スタッフ"
+                    link="/staff"
+                />
+            )}
             <MenuButton 
                 buttonTitle="生徒"
                 link="/students"

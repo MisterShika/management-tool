@@ -101,12 +101,21 @@ model DailyReport {
   createdAt    DateTime @default(now())
 }
 
+enum LessonType {
+  FREE
+  MINECRAFT
+  SCRATCH
+  INDEPENDENT
+  OTHER
+}
+
 /// Represents a lesson that can be assigned to a visit
 model Lesson {
   id          Int                @id @default(autoincrement())
   name        String
   description String?
   url         String?
+  type        LessonType        @default(FREE)
   visits      Visit[]            // back-relation
   completions LessonCompletion[] // back-relation for tracking completions
 }

@@ -1,5 +1,6 @@
-// components/AuthWrapper.jsx
 "use client";
+
+import { UserProvider } from "./UserContext"
 
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
@@ -34,7 +35,9 @@ export default function AuthWrapper({ children }) {
 
   return (
     <>
-      {children}
+      <UserProvider user={user}>
+       {children}
+      </UserProvider>
     </>
   );
 }
