@@ -8,6 +8,7 @@ export default function MainMenu() {
 
     return(
         <nav>
+            
             {user?.access === "ADMIN" && (
                 <MenuButton
                     buttonTitle="スタッフ"
@@ -23,6 +24,11 @@ export default function MainMenu() {
                 buttonTitle="カレンダー"
                 link="/calendar"
                 buttonColor="bg-purple-500"
+            />
+            <MenuButton 
+                buttonTitle="授業"
+                link="/lessons"
+                buttonColor="bg-rose-800"
             />
         </nav>
     )

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { usePathname } from "next/navigation";
+import Link from 'next/link';
 
 export default function Header() {
     const pathname = usePathname();
@@ -9,13 +10,15 @@ export default function Header() {
 
     return(
         <header className="py-4">
-            <Image
-                src="/images/logoTemp.png"
-                alt="Logo"
-                width={150}
-                height={100}
-                className="mb-6"
-            />
+            <Link href="/">
+                <Image
+                    src="/images/logoTemp.png"
+                    alt="Logo"
+                    width={150}
+                    height={100}
+                    className="mb-6"
+                />
+            </Link>
             <span className="">カムカム</span>
             {isHome ? (
                 <h1>Home Page</h1>

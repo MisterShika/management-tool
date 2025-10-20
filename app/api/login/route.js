@@ -16,6 +16,7 @@ export async function POST(req) {
       select: {
         id: true,
         access: true,
+        lastName: true,
       },
     });
 

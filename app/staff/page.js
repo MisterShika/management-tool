@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Loading from '@/components/Loading';
 import { useUser } from "@/components/UserContext";
+import MenuButton from '@/components/MenuButton';
 
 
 export default function Staff() {
@@ -31,6 +32,7 @@ export default function Staff() {
   return (
     <div>
     <h2>All Users</h2>
+    <MenuButton link="/staff/addStaff" buttonTitle="スタッフ追加" />
     <table className="min-w-full border border-gray-300">
         <thead>
         <tr className="bg-gray-100">
