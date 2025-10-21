@@ -113,6 +113,7 @@ enum LessonType {
 model Lesson {
   id          Int                @id @default(autoincrement())
   name        String
+  focus       String?
   description String?
   url         String?
   type        LessonType        @default(FREE)
