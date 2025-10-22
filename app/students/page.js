@@ -96,9 +96,9 @@ export default function Students() {
       <td className="px-4 py-2 border">
         <Link
           href={`/student/${student.id}`}
-          className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center"
+          className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
         >
-          🔍 表示
+          詳細
         </Link>
       </td>
     </tr>

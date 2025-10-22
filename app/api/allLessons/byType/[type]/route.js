@@ -14,6 +14,7 @@ export async function GET(request, context) {
     const lessons = await prisma.lesson.findMany({
       where: { type },
       select: {
+        id: true,
         name: true,
         description: true,
         url: true,

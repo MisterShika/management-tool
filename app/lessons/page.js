@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import MenuButton from '@/components/MenuButton';
 import Loading from '@/components/Loading';
+import Link from "next/link";
 
 export default function Lessons() {
   const [lessons, setLessons] = useState([]);
@@ -27,7 +28,7 @@ export default function Lessons() {
         const url =
           selectedType === 'ALL'
             ? '/api/allLessons'
-            : `/api/allLessons/${selectedType}`;
+            : `/api/allLessons/byType/${selectedType}`;
 
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -81,6 +82,7 @@ export default function Lessons() {
               <th className="py-2 px-4 border-b">タイプ</th>
               <th className="py-2 px-4 border-b">説明</th>
               <th className="py-2 px-4 border-b">プロジェクトリンク</th>
+              <th className="py-2 px-4 border-b"></th>
             </tr>
           </thead>
           <tbody>
@@ -111,6 +113,14 @@ export default function Lessons() {
                     ) : (
                       <span className="text-gray-400">—</span>
                     )}
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    <Link
+                    href={`/lessons/${lesson.id}`}
+                    className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                    >
+                    詳細
+                    </Link>
                   </td>
                 </tr>
               ))

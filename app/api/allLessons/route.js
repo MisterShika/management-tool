@@ -6,6 +6,7 @@ export async function GET() {
   try {
     const lessons = await prisma.lesson.findMany({
       select: {
+        id: true,
         name: true,
         description: true,
         url: true,

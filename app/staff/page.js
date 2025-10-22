@@ -62,7 +62,7 @@ export default function Staff() {
                   href={`/staff/${user.id}`}
                   className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
                 >
-                  詳細を見る
+                  詳細
                 </Link>
               </td>
             </tr>
