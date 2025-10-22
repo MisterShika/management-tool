@@ -69,27 +69,3 @@ export async function PUT(request, { params }) {
     );
   }
 }
-
-export async function DELETE(request, { params }) {
-  try {
-    const { id } = params;
-
-    // Optional: validate id
-    const userId = parseInt(id, 10);
-    if (isNaN(userId)) {
-      return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
-    }
-
-    await prisma.user.delete({
-      where: { id: userId },
-    });
-
-    return NextResponse.json({ message: 'User deleted successfully' });
-  } catch (err) {
-    console.error('Error deleting user:', err);
-    return NextResponse.json(
-      { error: 'Failed to delete user' },
-      { status: 500 }
-    );
-  }
-}
