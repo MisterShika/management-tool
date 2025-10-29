@@ -55,3 +55,23 @@ export async function PUT(req, context) {
     );
   }
 }
+
+export async function DELETE(req, context) {
+  const params = await context.params;
+  const { id } = params;
+
+  try {
+    const student = await prisma.student.update({
+      where: { id: Number(id) },
+      data: { isActive: false }, // Soft-delete by switching to false
+    });
+
+    return NextResponse.json({ message: "Student deleted successfully", student });
+  } catch (err) {
+    console.error("Error deleting student:", err);
+    return NextResponse.json(
+      { error: "Failed to delete student" },
+      { status: 500 }
+    );
+  }
+}

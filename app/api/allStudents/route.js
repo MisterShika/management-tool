@@ -7,6 +7,9 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const students = await prisma.student.findMany({
+      where:{
+        isActive: true,
+      },
       select: {
         id: true,
         firstName: true,
