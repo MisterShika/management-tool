@@ -33,7 +33,7 @@ export async function PUT(req, { params }) {
         description: body.description,
         url: body.url,
         type: body.type,
-        // remove any invalid fields like `focus`
+        focus: body.focus,
       }
     });
 

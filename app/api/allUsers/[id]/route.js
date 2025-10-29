@@ -4,15 +4,13 @@ import { prisma } from '@/lib/prisma';
 // GET /api/allUsers/[id]
 export async function GET(request, { params }) {
   try {
-    const { id } = await params; // ✅ must await in Next.js dynamic routes
+    const { id } = await params; // ✅ await here
 
-    // Convert to integer if using numeric IDs
     const userId = parseInt(id, 10);
     if (isNaN(userId)) {
       return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }
 
-    // Fetch the user
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -25,6 +23,7 @@ export async function GET(request, { params }) {
         pin: true,
         access: true,
         createdAt: true,
+        isActive: true,
       },
     });
 
@@ -42,9 +41,10 @@ export async function GET(request, { params }) {
   }
 }
 
+// PUT /api/allUsers/[id]
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params; // ✅ await here
     const body = await request.json();
 
     const updatedUser = await prisma.user.update({
@@ -65,6 +65,29 @@ export async function PUT(request, { params }) {
     console.error('Error updating user:', err);
     return NextResponse.json(
       { error: 'Failed to update user' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/allUsers/[id]
+export async function DELETE(request, { params }) {
+  try {
+    const { id } = await params; // ✅ await here
+
+    const updatedUser = await prisma.user.update({
+      where: { id: Number(id) },
+      data: { isActive: false },
+    });
+
+    return NextResponse.json({
+      message: 'User marked as inactive successfully',
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error('Error marking user inactive:', err);
+    return NextResponse.json(
+      { error: 'Failed to mark user inactive' },
       { status: 500 }
     );
   }

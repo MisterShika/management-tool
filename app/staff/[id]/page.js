@@ -1,10 +1,11 @@
 'use client';
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Loading from '@/components/Loading';
 
 export default function UserPage() {
   const { id } = useParams();
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -42,7 +43,6 @@ export default function UserPage() {
   };
 
   const handleSave = async () => {
-    // PIN validation
     if (!/^\d{4}$/.test(formData.pin)) {
       alert("PINコードは4桁の数字で入力してください。");
       return;
@@ -61,6 +61,22 @@ export default function UserPage() {
     } catch (err) {
       console.error(err);
       alert("更新に失敗しました。");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("このユーザーを削除（無効化）しますか？")) return;
+
+    try {
+      const res = await fetch(`/api/allUsers/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to delete user");
+      alert("ユーザーを無効化しました。");
+      router.push("/staff"); // ✅ redirect after delete
+    } catch (err) {
+      console.error(err);
+      alert("削除に失敗しました。");
     }
   };
 
@@ -112,7 +128,7 @@ export default function UserPage() {
                     </select>
                   ) : (
                     <input
-                      type={field.name === "pin" ? "text" : "text"}
+                      type="text"
                       name={field.name}
                       value={formData[field.name] ?? ""}
                       onChange={(e) => {
@@ -151,6 +167,12 @@ export default function UserPage() {
             }}
           >
             キャンセル
+          </button>
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded"
+            onClick={handleDelete}
+          >
+            削除
           </button>
         </div>
       )}

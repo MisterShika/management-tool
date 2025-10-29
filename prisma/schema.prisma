@@ -26,6 +26,7 @@ model User {
   createdAt          DateTime    @default(now())
   visitsAdded        Visit[]         @relation("UserAddedVisits")
   reportsAdded       DailyReport[]   @relation("UserAddedReports")
+  isActive           Boolean    @default(true)
 }
 
 enum Gender {
