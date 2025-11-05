@@ -1,18 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import AddVisit from "@/components/AddVisit";
-import ViewVisit from "@/components/ViewVisit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function CalendarPage() {
+  const router = useRouter();
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [selectedVisitId, setSelectedVisitId] = useState(null);
   const [date, setDate] = useState(new Date());
 
   // Fetch events for a given month
@@ -37,7 +36,7 @@ export default function CalendarPage() {
   useEffect(() => {
     const y = date.getFullYear();
     const m = date.getMonth() + 1;
-    fetchEvents(y, m); // fetch current month on load
+    fetchEvents(y, m);
   }, []);
 
   const formatDateLocal = (date) => {
@@ -55,16 +54,6 @@ export default function CalendarPage() {
   const handleCloseAddModal = () => {
     setSelectedDate(null);
     setIsAddModalOpen(false);
-  };
-
-  const handleOpenViewModal = (visitId) => {
-    setSelectedVisitId(visitId);
-    setIsViewModalOpen(true);
-  };
-
-  const handleCloseViewModal = () => {
-    setSelectedVisitId(null);
-    setIsViewModalOpen(false);
   };
 
   const getEventsForDay = (day) => {
@@ -98,9 +87,9 @@ export default function CalendarPage() {
                   <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-16">
                     {dayEvents.map((e) => (
                       <li
-                        onClick={() => handleOpenViewModal(e.id)}
+                        onClick={() => router.push(`/visits/${e.id}`)} // 👈 navigate to page
                         key={e.id}
-                        className="text-xs rounded px-1 mb-1 bg-white text-black cursor-pointer"
+                        className="text-xs rounded px-1 mb-1 bg-white text-black cursor-pointer hover:bg-emerald-100 transition"
                         style={{ border: `2px solid ${e.color}` }}
                       >
                         {e.title}
@@ -113,7 +102,7 @@ export default function CalendarPage() {
               <span className="addEventSpan flex w-full justify-end">
                 <span
                   onClick={() => handleOpenAddModal(tileDate)}
-                  className="w-4 h-4 bg-emerald-500 flex items-center justify-center rounded-full"
+                  className="w-4 h-4 bg-emerald-500 flex items-center justify-center rounded-full cursor-pointer"
                 >
                   <FontAwesomeIcon icon={faPlus} className="text-white text-sm" />
                 </span>
@@ -144,21 +133,6 @@ export default function CalendarPage() {
                 fetchEvents(y, m);
               }}
             />
-          </div>
-        </div>
-      )}
-
-      {/* View Visit Modal */}
-      {isViewModalOpen && selectedVisitId && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-              onClick={handleCloseViewModal}
-            >
-              ✖
-            </button>
-            <ViewVisit visitId={selectedVisitId} />
           </div>
         </div>
       )}
