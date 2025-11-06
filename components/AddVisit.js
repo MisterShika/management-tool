@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useUser } from "@/components/UserContext";
 
 export default function AddVisit({ defaultDate, onClose, onSubmitSuccess }) {
   const [studentId, setStudentId] = useState("");
   const [date, setDate] = useState(defaultDate || "");
   const [students, setStudents] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const user = useUser();
 
   useEffect(() => {
     async function fetchStudents() {
@@ -38,6 +40,7 @@ export default function AddVisit({ defaultDate, onClose, onSubmitSuccess }) {
           studentId: Number(studentId),
           date: new Date(date).toISOString(),
           status: "PLANNED",
+          addedById: user?.id || null,
         }),
       });
 

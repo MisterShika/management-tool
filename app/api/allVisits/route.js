@@ -26,7 +26,7 @@ export async function GET(req) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { studentId, date, status, lessonId, note } = body;
+    const { studentId, date, status, lessonId, note, addedById } = body;
 
     if (!studentId || !date) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -39,6 +39,7 @@ export async function POST(request) {
         status: status || "PLANNED",
         lesson: lessonId ? { connect: { id: lessonId } } : undefined,
         dailyReports: note ? { create: { note } } : undefined,
+        addedBy: addedById ? { connect: { id: addedById } } : undefined,
       },
       include: {
         student: true,
