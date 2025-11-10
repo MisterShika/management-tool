@@ -98,7 +98,7 @@ export default function VisitPage() {
       if (!res.ok) throw new Error("Failed to delete visit");
 
       alert("削除が完了しました。");
-      router.push("/visits");
+      router.push("/calendar");
     } catch (err) {
       console.error("Error deleting visit:", err);
       alert("削除に失敗しました。");

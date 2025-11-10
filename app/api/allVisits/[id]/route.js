@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 // ✅ GET (already good)
 export async function GET(req, context) {
-  const { id } = context.params;
+  const { id } = await context.params; 
 
   try {
     const visit = await prisma.visit.findUnique({
@@ -60,18 +60,16 @@ export async function PATCH(req, context) {
   }
 }
 
-// ✅ DELETE (only allows deleting if not attached to other data)
+// ✅ DELETE (allows deleting even if linked to a lesson)
 export async function DELETE(req, context) {
-  const { id } = await context.params;
+  const { id } = context.params;
 
   try {
     const visitId = Number(id);
 
-    // Check if visit exists and has any relations
     const visit = await prisma.visit.findUnique({
       where: { id: visitId },
       include: {
-        lesson: true,
         dailyReports: true,
         completions: true,
       },
@@ -81,21 +79,14 @@ export async function DELETE(req, context) {
       return NextResponse.json({ error: "Visit not found" }, { status: 404 });
     }
 
-    // Safety check: only delete if no linked data
-    if (
-      visit.lessonId !== null ||
-      visit.dailyReports.length > 0 ||
-      visit.completions.length > 0
-    ) {
+    // Only block deletion if there are dependent records
+    if (visit.dailyReports.length > 0 || visit.completions.length > 0) {
       return NextResponse.json(
-        {
-          error: "Cannot delete visit because it is linked to a lesson, report, or completion.",
-        },
-        { status: 400 }
+        { error: "Cannot delete visit because it has linked reports or completions." },
+        { status: 409 }
       );
     }
 
-    // Safe to delete
     await prisma.visit.delete({ where: { id: visitId } });
 
     return NextResponse.json({ success: true });
