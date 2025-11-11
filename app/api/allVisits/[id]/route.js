@@ -62,7 +62,7 @@ export async function PATCH(req, context) {
 
 // ✅ DELETE (allows deleting even if linked to a lesson)
 export async function DELETE(req, context) {
-  const { id } = context.params;
+  const { id } = await context.params; 
 
   try {
     const visitId = Number(id);

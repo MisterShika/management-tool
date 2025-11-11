@@ -204,82 +204,117 @@ export default function VisitPage() {
             </td>
           </tr>
 
-          {/* Lesson */}
-          <tr>
-            <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
-              授業
-            </th>
-          </tr>
-          <tr>
-            {editing ? (
-              <>
-                <td className="px-4 py-2 border">
-                  <select
-                    className="border px-2 py-1 rounded w-full"
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                  >
-                    <option value="">種類を選択</option>
-                    <option value="FREE">Free</option>
-                    <option value="MINECRAFT">Minecraft</option>
-                    <option value="SCRATCH">Scratch</option>
-                    <option value="INDEPENDENT">Independent</option>
-                    <option value="OTHER">その他</option>
-                  </select>
-                </td>
-                <td className="px-4 py-2 border">
-                  {lessonsLoading ? (
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <svg
-                        className="animate-spin h-4 w-4 mr-2 text-gray-400"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v8H4z"
-                        ></path>
-                      </svg>
-                      読み込み中…
-                    </div>
-                  ) : (
-                    <select
-                      className="border px-2 py-1 rounded w-full"
-                      value={selectedLessonId}
-                      onChange={(e) => setSelectedLessonId(e.target.value)}
-                      disabled={!selectedType}
-                    >
-                      <option value="">選択してください</option>
-                      {lessonOptions.map((lesson) => (
-                        <option key={lesson.id} value={lesson.id}>
-                          {lesson.name}
-                        </option>
+          {/* Lesson / Completed Section */}
+          {visit.status === "COMPLETED" ? (
+            <>
+              <tr>
+                <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
+                  完了した授業
+                </th>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border" colSpan="2">
+                  {visit.completions.length > 0 ? (
+                    <ul className="list-disc list-inside">
+                      {visit.completions.map((completion) => (
+                        <li key={completion.id}>{completion.lesson.name}</li>
                       ))}
-                    </select>
+                    </ul>
+                  ) : (
+                    "データなし"
                   )}
+                    <div
+                      className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                    >
+                      授業を追加
+                    </div>
                 </td>
-              </>
-            ) : (
-              <>
-                <td className="px-4 py-2 border">
-                  {visit.lesson ? visit.lesson.type : "データなし"}
+              </tr>
+
+              <tr>
+                <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
+                  レポート
+                </th>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 border" colSpan="2">
+                  {visit.dailyReports.length > 0 ? (
+                    <ul className="list-disc list-inside">
+                      {visit.dailyReports.map((report) => (
+                        <li key={report.id}>{report.note}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    "データなし"
+                  )}
+                    <div
+                      className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                    >
+                      レポートを追加
+                    </div>
                 </td>
-                <td className="px-4 py-2 border">
-                  {visit.lesson ? visit.lesson.name : "データなし"}
-                </td>
-              </>
-            )}
-          </tr>
+              </tr>
+            </>
+          ) : (
+            // Normal Lesson Section when not completed
+            <>
+              <tr>
+                <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
+                  授業
+                </th>
+              </tr>
+              <tr>
+                {editing ? (
+                  <>
+                    <td className="px-4 py-2 border">
+                      <select
+                        className="border px-2 py-1 rounded w-full"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                      >
+                        <option value="">種類を選択</option>
+                        <option value="FREE">Free</option>
+                        <option value="MINECRAFT">Minecraft</option>
+                        <option value="SCRATCH">Scratch</option>
+                        <option value="INDEPENDENT">Independent</option>
+                        <option value="OTHER">その他</option>
+                      </select>
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {lessonsLoading ? (
+                        <div className="text-gray-500 text-sm">読み込み中…</div>
+                      ) : (
+                        <select
+                          className="border px-2 py-1 rounded w-full"
+                          value={selectedLessonId}
+                          onChange={(e) => setSelectedLessonId(e.target.value)}
+                          disabled={!selectedType}
+                        >
+                          <option value="">選択してください</option>
+                          {lessonOptions.map((lesson) => (
+                            <option key={lesson.id} value={lesson.id}>
+                              {lesson.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td className="px-4 py-2 border">
+                      {visit.lesson ? visit.lesson.type : "データなし"}
+                    </td>
+                    <td className="px-4 py-2 border">
+                      {visit.lesson ? visit.lesson.name : "データなし"}
+                    </td>
+                  </>
+                )}
+              </tr>
+            </>
+          )}
+
+
         </tbody>
       </table>
     </div>
