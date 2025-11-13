@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
+import ConnectLesson from "@/components/ConnectLesson";
+import ConnectReport from "@/components/ConnectReport";
 
 export default function VisitPage() {
   const { id } = useParams();
@@ -16,6 +18,10 @@ export default function VisitPage() {
 
   const [lessonOptions, setLessonOptions] = useState([]);
   const [lessonsLoading, setLessonsLoading] = useState(false);
+
+  // modal toggle states
+  const [showLessonModal, setShowLessonModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   // Fetch visit data
   useEffect(() => {
@@ -208,58 +214,72 @@ export default function VisitPage() {
           {visit.status === "COMPLETED" ? (
             <>
               <tr>
-                <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
+                <th
+                  className="px-4 py-2 border text-left bg-gray-50"
+                  colSpan="2"
+                >
                   完了した授業
                 </th>
               </tr>
               <tr>
                 <td className="px-4 py-2 border" colSpan="2">
-                  {visit.completions.length > 0 ? (
-                    <ul className="list-disc list-inside">
-                      {visit.completions.map((completion) => (
-                        <li key={completion.id}>{completion.lesson.name}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    "データなし"
-                  )}
+                  <div className="flex flex-col items-center">
+                    {visit.completions.length > 0 ? (
+                      <ul className="list-disc list-inside">
+                        {visit.completions.map((completion) => (
+                          <li key={completion.id}>{completion.lesson.name}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      "データなし"
+                    )}
                     <div
-                      className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                      className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 my-1 rounded cursor-pointer"
+                      onClick={() => setShowLessonModal(true)}
                     >
                       授業を追加
                     </div>
+                  </div>
                 </td>
               </tr>
 
               <tr>
-                <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
+                <th
+                  className="px-4 py-2 border text-left bg-gray-50"
+                  colSpan="2"
+                >
                   レポート
                 </th>
               </tr>
               <tr>
                 <td className="px-4 py-2 border" colSpan="2">
-                  {visit.dailyReports.length > 0 ? (
-                    <ul className="list-disc list-inside">
-                      {visit.dailyReports.map((report) => (
-                        <li key={report.id}>{report.note}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    "データなし"
-                  )}
+                  <div className="flex flex-col items-center">
+                    {visit.dailyReports.length > 0 ? (
+                      <ul className="list-disc list-inside">
+                        {visit.dailyReports.map((report) => (
+                          <li key={report.id}>{report.note}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      "データなし"
+                    )}
                     <div
-                      className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                      className="block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 my-1 rounded cursor-pointer"
+                      onClick={() => setShowReportModal(true)}
                     >
                       レポートを追加
                     </div>
+                  </div>
                 </td>
               </tr>
             </>
           ) : (
-            // Normal Lesson Section when not completed
             <>
               <tr>
-                <th className="px-4 py-2 border text-left bg-gray-50" colSpan="2">
+                <th
+                  className="px-4 py-2 border text-left bg-gray-50"
+                  colSpan="2"
+                >
                   授業
                 </th>
               </tr>
@@ -313,10 +333,16 @@ export default function VisitPage() {
               </tr>
             </>
           )}
-
-
         </tbody>
       </table>
+
+      {/* Modals */}
+      {showLessonModal && (
+        <ConnectLesson onClose={() => setShowLessonModal(false)} />
+      )}
+      {showReportModal && (
+        <ConnectReport onClose={() => setShowReportModal(false)} />
+      )}
     </div>
   );
 }
