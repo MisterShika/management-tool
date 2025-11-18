@@ -130,4 +130,6 @@ model LessonCompletion {
   visit       Visit    @relation(fields: [visitId], references: [id])
   visitId     Int
   completedAt DateTime @default(now())
+
+  @@unique([lessonId, visitId]) // ensures one completion per lesson per visit
 }

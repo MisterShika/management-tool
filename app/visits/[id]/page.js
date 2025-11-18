@@ -338,7 +338,7 @@ export default function VisitPage() {
 
       {/* Modals */}
       {showLessonModal && (
-        <ConnectLesson onClose={() => setShowLessonModal(false)} />
+        <ConnectLesson visitId={visit.id} onClose={() => setShowLessonModal(false)} />
       )}
       {showReportModal && (
         <ConnectReport onClose={() => setShowReportModal(false)} />
