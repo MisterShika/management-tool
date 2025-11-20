@@ -23,27 +23,27 @@ export default function VisitPage() {
   const [showLessonModal, setShowLessonModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
+
+  const fetchVisit = async () => {
+    try {
+      const res = await fetch(`/api/allVisits/${id}`);
+      if (!res.ok) throw new Error("Failed to fetch visit");
+      const data = await res.json();
+      setVisit(data);
+      setSelectedStatus(data.status);
+      setSelectedType(data.lesson?.type || "");
+      setSelectedLessonId(data.lesson?.id || "");
+    } catch (err) {
+      console.error("Error fetching visit:", err);
+      setVisit(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Fetch visit data
   useEffect(() => {
     if (!id || typeof window === "undefined") return;
-
-    const fetchVisit = async () => {
-      try {
-        const res = await fetch(`/api/allVisits/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch visit");
-        const data = await res.json();
-        setVisit(data);
-        setSelectedStatus(data.status);
-        setSelectedType(data.lesson?.type || "");
-        setSelectedLessonId(data.lesson?.id || "");
-      } catch (err) {
-        console.error("Error fetching visit:", err);
-        setVisit(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchVisit();
   }, [id]);
 
@@ -338,7 +338,13 @@ export default function VisitPage() {
 
       {/* Modals */}
       {showLessonModal && (
-        <ConnectLesson visitId={visit.id} onClose={() => setShowLessonModal(false)} />
+        <ConnectLesson 
+          visitId={visit.id}
+          onClose={() => {
+            setShowLessonModal(false);
+            fetchVisit();     // <--- re-fetch page data!
+          }}
+        />
       )}
       {showReportModal && (
         <ConnectReport onClose={() => setShowReportModal(false)} />
