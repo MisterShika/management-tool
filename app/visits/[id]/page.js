@@ -225,11 +225,11 @@ export default function VisitPage() {
                 <td className="px-4 py-2 border" colSpan="2">
                   <div className="flex flex-col items-center">
                     {visit.completions.length > 0 ? (
-                      <ul className="list-disc list-inside">
+                      <div className="w-full">
                         {visit.completions.map((completion) => (
-                          <li key={completion.id}>{completion.lesson.name}</li>
+                          <div key={completion.id}>{completion.lesson.name}</div>
                         ))}
-                      </ul>
+                      </div>
                     ) : (
                       "データなし"
                     )}
@@ -255,11 +255,18 @@ export default function VisitPage() {
                 <td className="px-4 py-2 border" colSpan="2">
                   <div className="flex flex-col items-center">
                     {visit.dailyReports.length > 0 ? (
-                      <ul className="list-disc list-inside">
+                      <div className="w-full">
                         {visit.dailyReports.map((report) => (
-                          <li key={report.id}>{report.note}</li>
+                          <div key={report.id}>
+                            <div>
+                              {report.addedBy.lastName} {report.addedBy.firstName} - {new Date(report.createdAt).toLocaleDateString()}
+                            </div>
+                            <div>
+                              {report.note}
+                            </div>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     ) : (
                       "データなし"
                     )}

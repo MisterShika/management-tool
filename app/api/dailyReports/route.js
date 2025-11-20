@@ -38,7 +38,7 @@ export async function POST(req) {
       data: {
         visitId: Number(body.visitId),
         note: body.note,
-        addedById: Number(body.addedById),
+        addedById: Number(body.userId),
       },
     });
 
