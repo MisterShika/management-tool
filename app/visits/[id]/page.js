@@ -347,7 +347,13 @@ export default function VisitPage() {
         />
       )}
       {showReportModal && (
-        <ConnectReport onClose={() => setShowReportModal(false)} />
+        <ConnectReport 
+          visitId={visit.id}
+          onClose={() => {
+            setShowReportModal(false)
+            fetchVisit();     // <--- re-fetch page data!
+          }} 
+        />
       )}
     </div>
   );

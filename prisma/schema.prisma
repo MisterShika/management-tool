@@ -95,7 +95,7 @@ model Visit {
 model DailyReport {
   id           Int    @id @default(autoincrement())
   visit        Visit  @relation(fields: [visitId], references: [id])
-  visitId      Int    @unique // ensures one report per visit
+  visitId      Int
   addedBy      User?        @relation("UserAddedReports", fields: [addedById], references: [id])
   addedById    Int?
   note         String
