@@ -30,13 +30,48 @@ export default function Staff() {
   if (user?.access !== "ADMIN") return <div><h2>アクセスが拒否されました</h2></div>;
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
+    <div className="w-full justify-center">
+      {/* Title and Button */}
+      <div className="flex justify-center items-center mb-4">
         <h2 className="text-xl font-semibold">スタッフ一覧</h2>
         <MenuButton link="/staff/addStaff" buttonTitle="スタッフ追加" />
       </div>
 
-      <table className="min-w-full border border-gray-300 bg-white rounded-lg shadow">
+      {/* Main Container */}
+      <div className="w-full">
+        {users.map((user) => (
+            <div key={user.id}>
+              {/* Name Container */}
+              <div className="flex flex-row w-full justify-center">
+                <div className="px-2">
+                  <ruby>{user.lastName}<rt>{user.lastNameFurigana}</rt></ruby>
+                </div>
+                <div className="px-2">
+                  <ruby>{user.firstName}<rt>{user.firstNameFurigana}</rt></ruby>
+                </div>
+              </div>
+              {/* Data Container */}
+              <div className="flex w-full justify-center">
+                <div className="flex flex-col px-2"><span className="text-gray-400 text-xs">コード</span><span>{user.userCode}</span></div>
+                <div className="flex flex-col px-2"><span className="text-gray-400 text-xs">レベル</span><span>{user.access}</span></div>
+              </div>
+              {/* Edit Container */}
+              <div className="flex justify-center">
+                <Link
+                  href={`/staff/${user.id}`}
+                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                >
+                  詳細
+                </Link>
+              </div>
+            </div>
+          ))}
+      </div>
+
+
+
+
+      {/* <table className="min-w-full border border-gray-300 bg-white rounded-lg shadow">
         <thead>
           <tr className="bg-gray-100">
             <th className="px-4 py-2 border">姓</th>
@@ -68,7 +103,7 @@ export default function Staff() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 }

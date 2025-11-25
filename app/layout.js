@@ -13,13 +13,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${notoSansJP.className} min-h-screen flex flex-col items-center justify-center`}>
-        <Header />
-        <main className="flex flex-col items-center  flex-1 w-full p-4">
-          <AuthWrapper>
+        <AuthWrapper>
+          <Header />
+          <main className="flex flex-col items-center  flex-1 w-full p-4">
             {children}
-          </AuthWrapper>
-        </main>
-        <Footer />
+          </main>
+          <Footer />
+        </AuthWrapper>
       </body>
     </html>
   );
