@@ -38,34 +38,36 @@ export default function Staff() {
       </div>
 
       {/* Main Container */}
-      <div className="w-full">
+      <div className="flex w-full flex-col items-center">
+        <div className="w-full max-w-lg">
         {users.map((user) => (
-            <div key={user.id}>
+            <div key={user.id} className="flex odd:bg-blue-100 px-1 py-3">
               {/* Name Container */}
-              <div className="flex flex-row w-full justify-center">
-                <div className="px-2">
-                  <ruby>{user.lastName}<rt>{user.lastNameFurigana}</rt></ruby>
+              <div className="flex w-[50%]">
+                <div className="flex flex-col px-1 w-1/2">
+                  <span className="text-gray-400 text-xs">姓</span><span><ruby>{user.lastName}<rt>{user.lastNameFurigana}</rt></ruby></span>
                 </div>
-                <div className="px-2">
-                  <ruby>{user.firstName}<rt>{user.firstNameFurigana}</rt></ruby>
+                <div className="flex flex-col px-1 w-1/2">
+                  <span className="text-gray-400 text-xs">名</span><span><ruby>{user.firstName}<rt>{user.firstNameFurigana}</rt></ruby></span>
                 </div>
               </div>
               {/* Data Container */}
-              <div className="flex w-full justify-center">
-                <div className="flex flex-col px-2"><span className="text-gray-400 text-xs">コード</span><span>{user.userCode}</span></div>
-                <div className="flex flex-col px-2"><span className="text-gray-400 text-xs">レベル</span><span>{user.access}</span></div>
+              <div className="flex w-[30%]">
+                <div className="flex flex-col px-1 w-1/2"><span className="text-gray-400 text-xs">コード</span><span>{user.userCode}</span></div>
+                <div className="flex flex-col px-1 w-1/2"><span className="text-gray-400 text-xs">レベル</span><span>{user.access}</span></div>
               </div>
               {/* Edit Container */}
-              <div className="flex justify-center">
+              <div className="flex w-[20%] justify-center items-center">
                 <Link
                   href={`/staff/${user.id}`}
-                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                  className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
                 >
                   詳細
                 </Link>
               </div>
             </div>
           ))}
+          </div>
       </div>
 
 

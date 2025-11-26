@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react'
+import Image from 'next/image';
 
 export default function LoginForm() {
   const [pin, setPin] = useState('')
@@ -37,7 +38,16 @@ export default function LoginForm() {
 
   return (
     <form className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+      <div className="flex flex-col items-center">
+        <Image
+            src="/images/logoTemp.png"
+            alt="Logo"
+            width={150}
+            height={100}
+            className="mb-6"
+        />
         <h1 className="text-3xl font-bold mb-6">こんにちは！</h1>
+      </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="idnumber">
           ID番号
@@ -70,7 +80,7 @@ export default function LoginForm() {
         />
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex justify-center">
         <button
           className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center`}
           type="submit"
