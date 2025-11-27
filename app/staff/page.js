@@ -30,18 +30,24 @@ export default function Staff() {
   if (user?.access !== "ADMIN") return <div><h2>アクセスが拒否されました</h2></div>;
 
   return (
-    <div className="w-full justify-center">
-      {/* Title and Button */}
-      <div className="flex justify-center items-center mb-4">
-        <h2 className="text-xl font-semibold">スタッフ一覧</h2>
-        <MenuButton link="/staff/addStaff" buttonTitle="スタッフ追加" />
+    <div className="flex flex-col w-full justify-center items-center">
+        {/* Title and Button */}
+        <div className="w-full max-w-lg flex mb-1 justify-around">
+          <h2 className="text-2xl font-semibold">スタッフ一覧</h2>
+          <Link
+            href="/staff/addStaff"
+            className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
+          >
+            スタッフ追加
+          </Link>
       </div>
 
       {/* Main Container */}
       <div className="flex w-full flex-col items-center">
-        <div className="w-full max-w-lg">
+        <div className="w-full max-w-lg border">
         {users.map((user) => (
-            <div key={user.id} className="flex odd:bg-blue-100 px-1 py-3">
+            /* Single User */
+            <div key={user.id} className="flex odd:bg-blue-100 px-1 py-3 border-b border-gray-300 last:border-b-0">
               {/* Name Container */}
               <div className="flex w-[50%]">
                 <div className="flex flex-col px-1 w-1/2">
@@ -53,8 +59,8 @@ export default function Staff() {
               </div>
               {/* Data Container */}
               <div className="flex w-[30%]">
-                <div className="flex flex-col px-1 w-1/2"><span className="text-gray-400 text-xs">コード</span><span>{user.userCode}</span></div>
-                <div className="flex flex-col px-1 w-1/2"><span className="text-gray-400 text-xs">レベル</span><span>{user.access}</span></div>
+                <div className="flex flex-col px-1 w-1/2"><span className="text-gray-400 text-xs pb-[.5rem]">コード</span><span>{user.userCode}</span></div>
+                <div className="flex flex-col px-1 w-1/2"><span className="text-gray-400 text-xs pb-[.5rem]">レベル</span><span>{user.access}</span></div>
               </div>
               {/* Edit Container */}
               <div className="flex w-[20%] justify-center items-center">
