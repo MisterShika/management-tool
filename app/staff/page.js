@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Loading from '@/components/Loading';
 import { useUser } from "@/components/UserContext";
-import MenuButton from '@/components/MenuButton';
 
 export default function Staff() {
   const [users, setUsers] = useState([]);
@@ -31,9 +30,9 @@ export default function Staff() {
 
   return (
     <div className="flex flex-col w-full justify-center items-center">
-        {/* Title and Button */}
-        <div className="w-full max-w-lg flex mb-1 justify-around">
-          <h2 className="text-2xl font-semibold">スタッフ一覧</h2>
+      {/* Title and Button */}
+      <div className="w-full max-w-lg flex mb-1 justify-around">
+          <h2 className="text-2xl font-semibold">在スタッフ</h2>
           <Link
             href="/staff/addStaff"
             className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
@@ -75,43 +74,6 @@ export default function Staff() {
           ))}
           </div>
       </div>
-
-
-
-
-      {/* <table className="min-w-full border border-gray-300 bg-white rounded-lg shadow">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-4 py-2 border">姓</th>
-            <th className="px-4 py-2 border">名</th>
-            <th className="px-4 py-2 border">ユーザーコード</th>
-            <th className="px-4 py-2 border">権限</th>
-            <th className="px-4 py-2 border text-center">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id} className="hover:bg-gray-50">
-              <td className="px-4 py-2 border">
-                <ruby>{user.lastName}<rt>{user.lastNameFurigana}</rt></ruby>
-              </td>
-              <td className="px-4 py-2 border">
-                <ruby>{user.firstName}<rt>{user.firstNameFurigana}</rt></ruby>
-              </td>
-              <td className="px-4 py-2 border">{user.userCode}</td>
-              <td className="px-4 py-2 border">{user.access}</td>
-              <td className="px-4 py-2 border text-center">
-                <Link
-                  href={`/staff/${user.id}`}
-                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
-                >
-                  詳細
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </div>
   );
 }

@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Loading from '@/components/Loading';
-import MenuButton from '@/components/MenuButton';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -41,71 +40,53 @@ export default function Students() {
   if (loading) return <Loading />;
 
   return (
-    <div>
-      <h2>All Students</h2>
-      <MenuButton buttonTitle="新しい生徒を追加" link="/students/addStudent" />
-      <table className="min-w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-4 py-2 border">姓</th>
-            <th className="px-4 py-2 border">名</th>
-            <th className="px-4 py-2 border">生年月日</th>
-            <th className="px-4 py-2 border">学校</th>
-            <th className="px-4 py-2 border">学校種別</th>
-            <th className="px-4 py-2 border">学年</th>
-            <th className="px-4 py-2 border">性別</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-<tbody>
-  {students.map((student) => (
-    <tr key={student.id} className="hover:bg-gray-50">
-      <td className="px-4 py-2 border">
-        <ruby>
-          {student.lastName}
-          <rt>{student.lastNameFurigana}</rt>
-        </ruby>
-      </td>
-      <td className="px-4 py-2 border">
-        <ruby>
-          {student.firstName}
-          <rt>{student.firstNameFurigana}</rt>
-        </ruby>
-      </td>
-      <td className="px-4 py-2 border">
-        {new Date(student.birthday).toLocaleDateString("ja-JP")}
-      </td>
-      <td className="px-4 py-2 border">{student.school}</td>
-      <td className="px-4 py-2 border">
-        {schoolTypeMap[student.schoolType] ?? "未設定"}
-      </td>
-      <td className="px-4 py-2 border">{student.grade}</td>
-      <td className="px-4 py-2 border">
-        {genderMap[student.gender] ?? "未設定"}
-      </td>
-
-      {/* New column for color circle */}
-      <td className="px-4 py-2 border">
-        <div
-          className="w-4 h-4 rounded-full"
-          style={{ backgroundColor: student.color }}
-        />
-      </td>
-
-      <td className="px-4 py-2 border">
-        <Link
-          href={`/student/${student.id}`}
-          className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
-        >
-          詳細
-        </Link>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
-      </table>
+    <div className="flex flex-col w-full justify-center items-center">
+      {/* Title and Button */}
+      <div className="w-full max-w-lg flex mb-1 justify-around">
+          <h2 className="text-2xl font-semibold">在生徒</h2>
+          <Link
+            href="/students/addStudent"
+            className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
+          >
+            生徒追加
+          </Link>
+      </div>
+      {/* Main Container */}
+      <div className="flex w-full flex-col items-center">
+        <div className="w-full max-w-lg border">
+          {students.map((student) => (
+            <div key={student.id} className="flex odd:bg-green-100 px-1 py-3 border-b border-gray-300 last:border-b-0">
+              {/* Name Container */}
+              <div className="flex w-[40%]">
+                <div className="flex flex-col px-1 w-1/2">
+                  <span className="text-gray-400 text-xs">姓</span><span><ruby>{student.lastName}<rt>{student.lastNameFurigana}</rt></ruby></span>
+                </div>
+                <div className="flex flex-col px-1 w-1/2">
+                  <span className="text-gray-400 text-xs">名</span><span><ruby>{student.firstName}<rt>{student.firstNameFurigana}</rt></ruby></span>
+                </div>
+              </div>
+              {/* Middle Container */}
+              <div className="flex w-[45%]">
+                <div className="flex flex-col px-1 w-2/5">
+                  <span className="text-gray-400 text-xs">性別</span><span>{genderMap[student.gender] ?? "未設定"}</span>
+                </div>
+                <div className="flex flex-col px-1 w-3/5">
+                  <span className="text-gray-400 text-xs">学校</span><span>{schoolTypeMap[student.schoolType] ?? "未設定"} : {student.grade}</span>
+                </div>
+              </div>
+              {/* Button Container */}
+              <div className="flex w-[15%] justify-center items-center">
+                <Link
+                  href={`/student/${student.id}`}
+                  className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
+                >
+                  詳細
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
