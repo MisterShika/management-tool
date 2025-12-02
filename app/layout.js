@@ -11,8 +11,8 @@ const notoSansJP = Noto_Sans_JP({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${notoSansJP.className} min-h-screen flex flex-col items-center justify-center`}>
+    <html lang="ja">
+      <body className={`${notoSansJP.className} min-h-svh flex flex-col items-center justify-center`}>
         <AuthWrapper>
           <Header />
           <main className="flex flex-col items-center  flex-1 w-full ">

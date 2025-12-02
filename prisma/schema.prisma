@@ -89,6 +89,7 @@ model Visit {
   addedBy      User?              @relation("UserAddedVisits", fields: [addedById], references: [id])
   addedById    Int?
   createdAt    DateTime @default(now())
+  pickUpTime   DateTime
 }
 
 /// Represents a report for a visit (e.g., how a student did that day)

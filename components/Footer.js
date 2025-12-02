@@ -11,7 +11,7 @@ export default function Footer() {
     }).format(today);
 
     return(
-        <footer>
+        <footer className="py-4 text-center w-full bg-yellow-400 border-t border-yellow-500">
             {formatted}
         </footer>
     )

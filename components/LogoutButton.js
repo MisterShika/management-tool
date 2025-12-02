@@ -18,7 +18,7 @@ export default function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={loading} // prevent multiple clicks
-      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded flex items-center justify-center focus:outline-none focus:shadow-outline"
+      className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded flex items-center justify-center focus:outline-none focus:shadow-outline absolute top-2 right-2"
     >
       {loading && (
         <svg

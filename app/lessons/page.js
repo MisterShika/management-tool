@@ -50,7 +50,7 @@ export default function Lessons() {
   return (
     <div className="flex flex-col w-full justify-center items-center">
       {/* Title and Button */}
-      <div className="w-full max-w-lg flex mb-1 justify-around">
+      <div className="w-full max-w-lg flex mb-5 justify-around">
         <h2 className="text-2xl font-semibold">レッスン一覧</h2>
         <Link
         href="/lessons/addLesson"

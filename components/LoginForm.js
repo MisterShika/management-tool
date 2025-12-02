@@ -37,23 +37,23 @@ export default function LoginForm() {
 
 
   return (
-    <form className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md" onSubmit={handleSubmit}>
+    <form className="w-full max-w-sm bg-white p-6 rounded-lg shadow-xl/30 bg-yellow-400" onSubmit={handleSubmit}>
       <div className="flex flex-col items-center">
         <Image
-            src="/images/logoTemp.png"
+            src="/images/logoMain.png"
             alt="Logo"
             width={150}
             height={100}
             className="mb-6"
         />
-        <h1 className="text-3xl font-bold mb-6">こんにちは！</h1>
+        <h1 className="text-4xl font-bold mb-6">こんにちは！</h1>
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="idnumber">
+        <label className="block text-sm font-bold mb-2" htmlFor="idnumber">
           ID番号
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
           id="idnumber"
           type="text"
           onChange={(e) => setUserCode(e.target.value.replace(/\D/g, ''))}
@@ -64,11 +64,11 @@ export default function LoginForm() {
       </div>
 
       <div className="mb-6">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+        <label className="block text-sm font-bold mb-2" htmlFor="password">
           暗証番号
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline bg-white"
           id="password"
           type="password"
           maxLength={4}
