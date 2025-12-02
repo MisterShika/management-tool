@@ -17,7 +17,17 @@ export default function AddUser() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+
+    // Force uppercase for userCode and pin
+    let newValue = value;
+    if (name === "userCode") {
+      // Only allow alphanumeric characters and uppercase
+      newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+    } else if (name === "pin") {
+      newValue = value.toUpperCase();
+    }
+
+    setForm((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleSubmit = async (e) => {
@@ -55,15 +65,15 @@ export default function AddUser() {
       onSubmit={handleSubmit}
       className="bg-white shadow-md rounded-2xl p-6 w-full max-w-md mx-auto space-y-4"
     >
-      <h2 className="text-lg font-semibold mb-2">Add New User</h2>
+      <h2 className="text-lg font-semibold mb-2">新しいユーザーを追加</h2>
 
       <div className="grid grid-cols-2 gap-3">
         <input
           name="userCode"
           value={form.userCode}
           onChange={handleChange}
-          placeholder="User Code (4 chars)"
-          className="border p-2 rounded-md"
+          placeholder="コード (英数字4文字)"
+          className="border p-2 rounded-md uppercase"
           maxLength={4}
           required
         />
@@ -71,8 +81,8 @@ export default function AddUser() {
           name="pin"
           value={form.pin}
           onChange={handleChange}
-          placeholder="PIN (4 digits)"
-          className="border p-2 rounded-md"
+          placeholder="4桁の暗証番号"
+          className="border p-2 rounded-md uppercase"
           maxLength={4}
           required
         />
@@ -80,7 +90,7 @@ export default function AddUser() {
           name="lastName"
           value={form.lastName}
           onChange={handleChange}
-          placeholder="Last Name"
+          placeholder="姓"
           className="border p-2 rounded-md col-span-1"
           required
         />
@@ -88,7 +98,7 @@ export default function AddUser() {
           name="firstName"
           value={form.firstName}
           onChange={handleChange}
-          placeholder="First Name"
+          placeholder="名"
           className="border p-2 rounded-md col-span-1"
           required
         />
@@ -96,7 +106,7 @@ export default function AddUser() {
           name="lastNameFurigana"
           value={form.lastNameFurigana}
           onChange={handleChange}
-          placeholder="Last Name (Furigana)"
+          placeholder="ふりがな（姓）"
           className="border p-2 rounded-md col-span-1"
           required
         />
@@ -104,14 +114,14 @@ export default function AddUser() {
           name="firstNameFurigana"
           value={form.firstNameFurigana}
           onChange={handleChange}
-          placeholder="First Name (Furigana)"
+          placeholder="ふりがな（名）"
           className="border p-2 rounded-md col-span-1"
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Access Level</label>
+        <label className="block text-sm font-medium mb-1">アクセス権限</label>
         <select
           name="access"
           value={form.access}
@@ -128,7 +138,7 @@ export default function AddUser() {
         disabled={status.loading}
         className="bg-blue-600 text-white px-4 py-2 rounded-md w-full hover:bg-blue-700 disabled:opacity-50"
       >
-        {status.loading ? "Saving..." : "Add User"}
+        {status.loading ? "追加中..." : "ユーザー追加"}
       </button>
 
       {status.message && (

@@ -16,7 +16,7 @@ export default function Lessons() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Saving...');
+    setStatus('追加中...');
 
     try {
       const res = await fetch('/api/allLessons', {
@@ -27,7 +27,7 @@ export default function Lessons() {
 
       if (!res.ok) throw new Error('Failed to add lesson');
 
-      setStatus('Lesson added successfully!');
+      setStatus('レッスンが正常に追加されました！');
       setFormData({ name: '', description: '', url: '', type: 'FREE' });
     } catch (err) {
       console.error(err);
@@ -37,11 +37,11 @@ export default function Lessons() {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
-      <h1 className="text-xl font-semibold mb-4">Add a Lesson</h1>
+      <h1 className="text-xl font-semibold mb-4">新しいレッスンを追加</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-medium mb-1">Name *</label>
+          <label className="block font-medium mb-1">タイトル *</label>
           <input
             name="name"
             value={formData.name}
@@ -52,7 +52,7 @@ export default function Lessons() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Description</label>
+          <label className="block font-medium mb-1">説明</label>
           <textarea
             name="description"
             value={formData.description}
@@ -75,7 +75,7 @@ export default function Lessons() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Type</label>
+          <label className="block font-medium mb-1">タイプ</label>
           <select
             name="type"
             value={formData.type}
@@ -94,7 +94,7 @@ export default function Lessons() {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         >
-          Add Lesson
+          レッスン追加
         </button>
 
         {status && <p className="text-sm mt-2 text-gray-600">{status}</p>}
