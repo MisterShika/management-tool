@@ -20,7 +20,7 @@ export default function ConnectLesson({ visitId, onClose }) {
 
       if (!res.ok) throw new Error("Failed to add");
 
-      // ★ Refresh the visit page so the updated completions load
+      // Refresh the visit page so the updated completions load
       onClose();
     } catch (err) {
       console.error(err);
@@ -32,7 +32,7 @@ export default function ConnectLesson({ visitId, onClose }) {
 useEffect(() => {
   if (!selectedType) {
     setLessons([]);
-    setSelectedLessonId(""); // no type → clear selection
+    setSelectedLessonId(""); // no type clear selection
     return;
   }
 

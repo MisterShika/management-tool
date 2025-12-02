@@ -102,10 +102,10 @@ export default function UserPage() {
         <tbody>
           {[
             { label: "ユーザーコード", name: "userCode" },
-            { label: "姓", name: "lastName" },
-            { label: "名", name: "firstName" },
             { label: "ふりがな（姓）", name: "lastNameFurigana" },
+            { label: "姓", name: "lastName" },
             { label: "ふりがな（名）", name: "firstNameFurigana" },
+            { label: "名", name: "firstName" },
             { label: "PINコード", name: "pin" },
             { label: "アクセス権限", name: "access", options: accessMap },
           ].map((field) => (

@@ -48,10 +48,16 @@ export default function Lessons() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">レッスン一覧</h1>
-        <MenuButton link="/lessons/addLesson" buttonTitle="レッスン追加" />
+    <div className="flex flex-col w-full justify-center items-center">
+      {/* Title and Button */}
+      <div className="w-full max-w-lg flex mb-1 justify-around">
+        <h2 className="text-2xl font-semibold">レッスン一覧</h2>
+        <Link
+        href="/lessons/addLesson"
+        className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
+        >
+          レッスン追加
+        </Link>
       </div>
 
       {/* Dropdown Filter */}
@@ -73,67 +79,47 @@ export default function Lessons() {
         </select>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow">
-          <thead className="bg-gray-100 text-left">
-            <tr>
-              <th className="py-2 px-4 border-b">レッスン名</th>
-              <th className="py-2 px-4 border-b">タイプ</th>
-              <th className="py-2 px-4 border-b">説明</th>
-              <th className="py-2 px-4 border-b">プロジェクトリンク</th>
-              <th className="py-2 px-4 border-b"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan="4" className="text-center py-10">
-                  <Loading />
-                </td>
-              </tr>
-            ) : lessons.length > 0 ? (
-              lessons.map((lesson) => (
-                <tr key={lesson.id || lesson.name} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border-b font-medium">{lesson.name}</td>
-                  <td className="py-2 px-4 border-b">{lesson.type}</td>
-                  <td className="py-2 px-4 border-b">
-                    {lesson.description || <span className="text-gray-400">—</span>}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {lesson.url ? (
-                      <a
-                        href={lesson.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
-                      >
-                        プロジェクトを見る
-                      </a>
-                    ) : (
-                      <span className="text-gray-400">—</span>
-                    )}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    <Link
-                    href={`/lessons/${lesson.id}`}
-                    className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+      {/* Main Container (name, url, id)*/}
+      {isLoading ? (
+         <Loading />
+      ) : lessons.length > 0 ? (
+        <div className="w-full max-w-lg border">
+          {lessons.map((lesson) => (
+            <div key={lesson.id} 
+              className="flex odd:bg-red-100 px-3 py-3 border-b border-gray-300 last:border-b-0"
+            >
+              {/* Title and Link */}
+              <div className="flex w-[80%] justify-between">
+                <div className="">
+                  {lesson.name}
+                </div>
+                {lesson.url && (
+                  <div className="">
+                    <Link href={lesson.url}
+                      className="text-blue-600 hover:underline"
                     >
-                    詳細
+                      外部リンク
                     </Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center text-gray-500 py-4 border-b">
-                  該当するレッスンがありません。
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                  </div>
+                )}
+              </div>
+              {/* Button Area */}
+              <div className="flex w-[20%] justify-end items-center">
+                <Link
+                href={`/lessons/${lesson.id}`}
+                className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+                >
+                  詳細
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          該当するレッスンがありません。
+        </div>
+      )}
     </div>
   );
 }

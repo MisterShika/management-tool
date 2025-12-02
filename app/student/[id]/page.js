@@ -113,10 +113,10 @@ export default function StudentPage() {
       <table className="min-w-full border border-gray-300">
         <tbody>
           {[
-            { label: "姓", name: "lastName" },
-            { label: "名", name: "firstName" },
             { label: "ふりがな（姓）", name: "lastNameFurigana" },
+            { label: "姓", name: "lastName" },
             { label: "ふりがな（名）", name: "firstNameFurigana" },
+            { label: "名", name: "firstName" },
             { label: "生年月日", name: "birthday", type: "date" },
             { label: "住所", name: "address" },
             { label: "学校", name: "school" },

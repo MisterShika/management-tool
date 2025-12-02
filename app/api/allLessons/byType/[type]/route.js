@@ -16,7 +16,6 @@ export async function GET(request, context) {
       select: {
         id: true,
         name: true,
-        description: true,
         url: true,
         type: true,
       },
