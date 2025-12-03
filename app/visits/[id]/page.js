@@ -26,7 +26,7 @@ export default function VisitPage() {
 
   const fetchVisit = async () => {
     try {
-      const res = await fetch(`/api/allVisits/${id}`);
+      const res = await fetch(`/api/allVisits/byId/${id}`);
       if (!res.ok) throw new Error("Failed to fetch visit");
       const data = await res.json();
       setVisit(data);
@@ -75,7 +75,7 @@ export default function VisitPage() {
   // Save changes
   const handleSave = async () => {
     try {
-      const res = await fetch(`/api/allVisits/${id}`, {
+      const res = await fetch(`/api/allVisits/byId/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -100,7 +100,7 @@ export default function VisitPage() {
     if (!confirm("本当にこの訪問を削除しますか？")) return;
 
     try {
-      const res = await fetch(`/api/allVisits/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/allVisits/byId/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete visit");
 
       alert("削除が完了しました。");

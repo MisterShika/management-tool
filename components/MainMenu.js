@@ -12,22 +12,28 @@ export default function MainMenu() {
                 <MenuButton
                     buttonTitle="仕事"
                     link="/staff"
+                    buttonColor="bg-blue-600"
                 />
             )}
             <MenuButton 
                 buttonTitle="生徒"
                 link="/students"
-                buttonColor="bg-green-500"
+                buttonColor="bg-green-600"
             />
             <MenuButton 
                 buttonTitle="予定"
                 link="/calendar"
-                buttonColor="bg-purple-500"
+                buttonColor="bg-red-600"
             />
             <MenuButton 
                 buttonTitle="授業"
                 link="/lessons"
-                buttonColor="bg-rose-800"
+                buttonColor="bg-purple-600"
+            />
+            <MenuButton 
+                buttonTitle="今日"
+                link="/today"
+                buttonColor="bg-amber-600"
             />
         </nav>
     )
