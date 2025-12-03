@@ -169,7 +169,7 @@ export default function UserPage() {
             キャンセル
           </button>
           <button
-            className="px-4 py-2 bg-red-500 text-white rounded"
+            className="px-4 py-2 bg-red-500 text-white rounded ml-auto"
             onClick={handleDelete}
           >
             削除

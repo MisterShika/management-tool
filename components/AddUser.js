@@ -136,7 +136,7 @@ export default function AddUser() {
       <button
         type="submit"
         disabled={status.loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md w-full hover:bg-blue-700 disabled:opacity-50"
+        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
       >
         {status.loading ? "追加中..." : "ユーザー追加"}
       </button>
