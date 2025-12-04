@@ -10,8 +10,8 @@ export default function AddStudent() {
     lastNameFurigana: "",
     birthday: "",
     address: "",
-    school: "",
-    schoolType: "ELEMENTARY",
+    // school: "",
+    // schoolType: "ELEMENTARY",
     grade: "",
     gender: "UNSPECIFIED",
     color: "#000000",
@@ -45,8 +45,8 @@ export default function AddStudent() {
         lastNameFurigana: "",
         birthday: "",
         address: "",
-        school: "",
-        schoolType: "ELEMENTARY",
+        // school: "",
+        // schoolType: "ELEMENTARY",
         grade: "",
         gender: "UNSPECIFIED",
         color: "#000000",
@@ -124,7 +124,7 @@ export default function AddStudent() {
         required
       />
 
-      <div className="grid grid-cols-2 gap-2">
+      {/* <div className="grid grid-cols-2 gap-2">
         <select
           name="schoolType"
           value={formData.schoolType}
@@ -145,7 +145,7 @@ export default function AddStudent() {
           className="border p-2 rounded"
           required
         />
-      </div>
+      </div> */}
 
       <select
         name="gender"

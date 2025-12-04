@@ -54,14 +54,26 @@ model Student {
   lastNameFurigana  String
   birthday          DateTime
   address           String
-  school            String
-  schoolType        SchoolType?
+  addressLat        String?
+  addressLon        String?
+  school            School?    @relation(fields: [schoolId], references: [id])
+  schoolId          Int?
   grade             String
   gender            Gender?    // optional
   lastEdited        DateTime   @updatedAt
   visits            Visit[]    // relationship to Visit
   color             String     @default("#000000") // default black, will overwrite in seed or API
   isActive          Boolean    @default(true) // indicates if the student is currently active
+}
+
+model School {
+  id                Int        @id @default(autoincrement())
+  schoolName        String
+  schoolAddress     String
+  schoolType        SchoolType @default(ELEMENTARY)
+  schoolLat         String?
+  schoolLon         String?
+  students          Student[]
 }
 
 enum VisitStatus {
@@ -89,7 +101,7 @@ model Visit {
   addedBy      User?              @relation("UserAddedVisits", fields: [addedById], references: [id])
   addedById    Int?
   createdAt    DateTime @default(now())
-  pickUpTime   DateTime
+  pickUpTime   DateTime?
 }
 
 /// Represents a report for a visit (e.g., how a student did that day)

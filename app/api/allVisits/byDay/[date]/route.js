@@ -4,8 +4,6 @@ import { prisma } from "@/lib/prisma";
 export async function GET(req, context) {
     const params = await context.params;
     const todaysDate = new Date(params.date);
-    
-    console.log("Received date:", todaysDate);
 
     try {
         const todaysVisits = await prisma.visit.findMany({
@@ -13,6 +11,9 @@ export async function GET(req, context) {
             include: {
                 student: true,
                 lesson: true,
+            },
+            orderBy: {
+                pickUpTime: 'asc', 
             },
         });
         return NextResponse.json(todaysVisits);

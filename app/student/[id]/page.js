@@ -16,12 +16,12 @@ export default function StudentPage() {
     UNSPECIFIED: "未設定",
   };
 
-  const schoolTypeMap = {
-    ELEMENTARY: "小学校",
-    MIDDLE: "中学校",
-    HIGH: "高校",
-    OTHER: "その他",
-  };
+  // const schoolTypeMap = {
+  //   ELEMENTARY: "小学校",
+  //   MIDDLE: "中学校",
+  //   HIGH: "高校",
+  //   OTHER: "その他",
+  // };
 
   useEffect(() => {
     async function fetchStudent() {
@@ -119,8 +119,8 @@ export default function StudentPage() {
             { label: "名", name: "firstName" },
             { label: "生年月日", name: "birthday", type: "date" },
             { label: "住所", name: "address" },
-            { label: "学校", name: "school" },
-            { label: "学校種別", name: "schoolType", options: schoolTypeMap },
+            // { label: "学校", name: "school" },
+            // { label: "学校種別", name: "schoolType", options: schoolTypeMap },
             { label: "学年", name: "grade" },
             { label: "性別", name: "gender", options: genderMap },
             { label: "アクティブ", name: "isActive", type: "checkbox" },

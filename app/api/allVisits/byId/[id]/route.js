@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// ✅ GET (already good)
+// GET (already good)
 export async function GET(req, context) {
   const { id } = await context.params; 
 
@@ -30,7 +30,7 @@ export async function GET(req, context) {
   }
 }
 
-// ✅ PATCH (handles saving updates from the edit page)
+// PATCH (handles saving updates from the edit page)
 export async function PATCH(req, context) {
   const { id } = await context.params; 
   const body = await req.json();
@@ -60,7 +60,7 @@ export async function PATCH(req, context) {
   }
 }
 
-// ✅ DELETE (allows deleting even if linked to a lesson)
+// DELETE (allows deleting even if linked to a lesson)
 export async function DELETE(req, context) {
   const { id } = await context.params; 
 

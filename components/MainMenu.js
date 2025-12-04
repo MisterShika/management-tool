@@ -35,6 +35,11 @@ export default function MainMenu() {
                 link="/today"
                 buttonColor="bg-amber-600"
             />
+            <MenuButton 
+                buttonTitle="学校"
+                link="/schools"
+                buttonColor="bg-rose-600"
+            />
         </nav>
     )
 }
