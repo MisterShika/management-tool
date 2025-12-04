@@ -1,8 +1,56 @@
+'use client';
+import { useEffect, useState } from 'react';
+import Loading from '@/components/Loading';
+import Link from "next/link";
+
 export default function SchoolsPage() {
+    const [loading, setLoading] = useState(true);
+    const [schools, setSchools] = useState([]);
+
+    useEffect(() => {
+        async function fetchSchools() {
+            try {
+                const res = await fetch("/api/allSchools");
+                const data = await res.json();
+                setSchools(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchSchools();
+    }, []);
+
+    if (loading) {return <Loading />;}
+
     return (
-        <div>
-            <h1>Schools Page</h1>
-            <p>This is the schools page content.</p>
+        <div className="flex flex-col w-full justify-center items-center">
+            {/* Title and Button */}
+            <div className="w-full max-w-lg flex mb-5 justify-around">
+                <h2 className="text-2xl font-semibold">学校一覧</h2>
+                <Link
+                    href="/schools/addSchool"
+                    className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
+                >
+                学校追加
+                </Link>
+            </div>
+            {/* Main Container */}
+            <div className="w-full max-w-lg border">
+                {schools.length > 0 ? 
+                    // Schools are available
+                    <div>
+                        学校データあり
+                    </div>
+                    :
+                    // No schools available
+                    <div>
+                        学校データなし
+                    </div>
+                }
+            </div>
         </div>
     );
 }

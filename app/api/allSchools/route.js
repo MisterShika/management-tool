@@ -6,24 +6,14 @@ export async function GET() {
         const schools = await prisma.school.findMany({
             select: {
                 id: true,
-                firstName: true,
-                lastName: true,
-                firstNameFurigana: true,
-                lastNameFurigana: true,
-                birthday: true,
-                address: true,
-                school: true,
-                grade: true,
-                gender: true,
+                schoolName: true,
                 schoolType: true,
-                isActive: true,
-                color: true,
-            },
-            orderBy: {
-                lastNameFurigana: "asc",
+                schoolAddress: true,
+                schoolLat: true,
+                schoolLon: true,
             },
         });
-        return NextResponse.json(students);
+        return NextResponse.json(schools);
     } catch (err) {
         console.error(err);
         return NextResponse.json(

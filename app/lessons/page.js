@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import MenuButton from '@/components/MenuButton';
 import Loading from '@/components/Loading';
 import Link from "next/link";
 
