@@ -38,18 +38,40 @@ export default function SchoolsPage() {
                 </Link>
             </div>
             {/* Main Container */}
-            <div className="w-full max-w-lg border">
-                {schools.length > 0 ? 
-                    // Schools are available
-                    <div>
-                        学校データあり
-                    </div>
-                    :
-                    // No schools available
-                    <div>
-                        学校データなし
-                    </div>
-                }
+            <div className="flex w-full flex-col items-center">
+                <div className="w-full max-w-lg border">
+                    {schools.length > 0 ? 
+                        // Schools are available
+                        <div>
+                            {schools.map((school) => (
+                                <div
+                                    key={school.id}
+                                    className="flex odd:bg-rose-100 px-1 py-3 border-b border-gray-300 last:border-b-0"
+                                >
+                                    <div className="flex w-[40%]">
+                                        {school.schoolType}
+                                    </div>
+                                    <div className="flex w-[40%]">
+                                        {school.schoolName}
+                                    </div>
+                                    <div className="flex w-[20%]">
+                                        <Link
+                                            href={`/school/${school.id}`}
+                                            className="flex bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded items-center"
+                                        >
+                                            詳細
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        :
+                        // No schools available
+                        <div>
+                            学校データなし
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     );
