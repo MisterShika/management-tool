@@ -54,6 +54,7 @@ model Student {
   lastNameFurigana  String
   birthday          DateTime
   address           String
+  phoneNumber       String?
   addressLat        String?
   addressLon        String?
   school            School?    @relation(fields: [schoolId], references: [id])
@@ -70,6 +71,7 @@ model School {
   id                Int        @id @default(autoincrement())
   schoolName        String
   schoolAddress     String
+  schoolPhone       String?
   schoolType        SchoolType @default(ELEMENTARY)
   schoolLat         String?
   schoolLon         String?
