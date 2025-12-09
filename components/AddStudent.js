@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddStudent() {
   const [formData, setFormData] = useState({
@@ -10,20 +10,42 @@ export default function AddStudent() {
     lastNameFurigana: "",
     birthday: "",
     address: "",
-    // school: "",
-    // schoolType: "ELEMENTARY",
+    schoolId: "",     // <-- important
     grade: "",
     gender: "UNSPECIFIED",
     color: "#000000",
   });
 
+  const [schools, setSchools] = useState([]); // <-- store school list
   const [status, setStatus] = useState(null);
 
+  // -----------------------------
+  // Fetch school list (id + name)
+  // -----------------------------
+  useEffect(() => {
+    async function loadSchools() {
+      try {
+        const res = await fetch("/api/allSchools/names");
+        const data = await res.json();
+        setSchools(data);
+      } catch (err) {
+        console.error("Error fetching schools:", err);
+      }
+    }
+    loadSchools();
+  }, []);
+
+  // -----------------------------
+  // Update form fields
+  // -----------------------------
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
+  // -----------------------------
+  // Submit new student
+  // -----------------------------
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("loading");
@@ -45,8 +67,7 @@ export default function AddStudent() {
         lastNameFurigana: "",
         birthday: "",
         address: "",
-        // school: "",
-        // schoolType: "ELEMENTARY",
+        schoolId: "",
         grade: "",
         gender: "UNSPECIFIED",
         color: "#000000",
@@ -97,6 +118,17 @@ export default function AddStudent() {
         />
       </div>
 
+      <select
+        name="gender"
+        value={formData.gender}
+        onChange={handleChange}
+        className="border p-2 rounded w-full"
+      >
+        <option value="MALE">男</option>
+        <option value="FEMALE">女</option>
+        <option value="UNSPECIFIED">未指定</option>
+      </select>
+
       <label className="block text-sm">生年月日</label>
       <input
         type="date"
@@ -115,48 +147,37 @@ export default function AddStudent() {
         className="border p-2 rounded w-full"
       />
 
-      <input
-        name="school"
-        placeholder="学校名"
-        value={formData.school}
-        onChange={handleChange}
-        className="border p-2 rounded w-full"
-        required
-      />
+      {/* -----------------------------
+          SCHOOL DROPDOWN
+         ----------------------------- */}
+      
+        <label className="block text-sm">学校</label>
+        <div className="flex w-full space-y-1 justify-between">
+          <select
+            name="schoolId"
+            value={formData.schoolId}
+            onChange={handleChange}
+            className="h-10 border p-2 rounded w-[75%] min-w-0"
+            required
+          >
+            <option value="">学校を選択</option>
 
-      {/* <div className="grid grid-cols-2 gap-2">
-        <select
-          name="schoolType"
-          value={formData.schoolType}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="ELEMENTARY">小学校</option>
-          <option value="MIDDLE">中学校</option>
-          <option value="HIGH">高校</option>
-          <option value="OTHER">その他</option>
-        </select>
+            {schools.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.schoolName}
+              </option>
+            ))}
+          </select>
 
-        <input
-          name="grade"
-          placeholder="学年"
-          value={formData.grade}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-      </div> */}
+          <input
+            name="grade"
+            placeholder="学年"
+            value={formData.grade}
+            onChange={handleChange}
+            className="h-10 border p-2 rounded flex-1 min-w-0 ml-2"
+          />
+      </div>
 
-      <select
-        name="gender"
-        value={formData.gender}
-        onChange={handleChange}
-        className="border p-2 rounded w-full"
-      >
-        <option value="MALE">男</option>
-        <option value="FEMALE">女</option>
-        <option value="UNSPECIFIED">未指定</option>
-      </select>
 
       <div>
         <label className="block text-sm mb-1">色タグ</label>

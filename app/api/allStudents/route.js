@@ -54,21 +54,24 @@ export async function POST(request) {
       lastNameFurigana,
       birthday,
       address,
-      school,
-      schoolType,
+      schoolId,   // <-- NEW
       grade,
       gender,
       color,
       isActive,
     } = body;
 
-    // basic validation (optional)
-    if (!firstName || !lastName || !school || !grade || !birthday) {
+    // Basic validation
+    if (!firstName || !lastName || !birthday) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
+
+    // schoolId is optional (because schema allows null)
+    // But if provided, make sure it is a number
+    const schoolIdValue = schoolId ? Number(schoolId) : null;
 
     const newStudent = await prisma.student.create({
       data: {
@@ -76,18 +79,18 @@ export async function POST(request) {
         lastName,
         firstNameFurigana,
         lastNameFurigana,
-        birthday: new Date(birthday), // ensure it's a Date object
+        birthday: new Date(birthday),
         address,
-        school,
-        schoolType, // must match enum: ELEMENTARY, MIDDLE, HIGH, OTHER
+        schoolId: schoolIdValue, // <-- correct relation field
         grade,
-        gender, // must match enum: MALE, FEMALE, UNSPECIFIED
+        gender,                  // MALE | FEMALE | UNSPECIFIED
         color: color || "#000000",
         isActive: isActive ?? true,
       },
     });
 
     return NextResponse.json(newStudent, { status: 201 });
+
   } catch (err) {
     console.error("Failed to create student:", err);
     return NextResponse.json(
