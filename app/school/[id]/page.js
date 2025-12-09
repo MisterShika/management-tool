@@ -45,9 +45,32 @@ export default function SingleSchoolPage() {
         fetchSchool();
     }, [id]);  
     
-    const handleSave = async () => {
-        console.log('Saving school data:', formData);
+const handleSave = async () => {
+  try {
+    const res = await fetch(`/api/allSchools/byId/${schoolData.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to update school");
     }
+
+    const updated = await res.json();
+
+    // Update UI
+    setSchoolData(updated); 
+    setEditing(false);
+
+    console.log("Updated school:", updated);
+
+  } catch (err) {
+    console.error("Error saving school:", err);
+  }
+};
 
     if (loading) return <Loading />;
 

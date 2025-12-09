@@ -19,3 +19,31 @@ export async function GET(req, context) {
         return NextResponse.json({ error: "Failed to fetch school" }, { status: 500 });
     }
 }
+
+
+export async function PATCH(req, context) {
+  const { id } = await context.params;
+  const body = await req.json();
+
+  try {
+    const updatedSchool = await prisma.school.update({
+      where: { id: Number(id) },
+      data: {
+        schoolName: body.schoolName,
+        schoolAddress: body.schoolAddress,
+        schoolPhone: body.schoolPhone || null,
+        schoolType: body.schoolType,
+        schoolLat: body.schoolLat || null,
+        schoolLon: body.schoolLon || null,
+      },
+    });
+
+    return NextResponse.json(updatedSchool);
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { error: "Failed to update school" },
+      { status: 500 }
+    );
+  }
+}
