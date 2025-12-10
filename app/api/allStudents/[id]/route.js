@@ -30,8 +30,6 @@ export async function PUT(req, context) {
 
   try {
     const body = await req.json();
-
-
     const updatedStudent = await prisma.student.update({
       where: { id: Number(id) },
       data: {

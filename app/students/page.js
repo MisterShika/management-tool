@@ -14,18 +14,12 @@ export default function Students() {
     UNSPECIFIED: "未設定",
   };
 
-  const schoolTypeMap = {
-    ELEMENTARY: "小学校",
-    MIDDLE: "中学校",
-    HIGH: "高校",
-    OTHER: "その他",
-  };
-
   useEffect(() => {
     async function fetchStudents() {
       try {
         const res = await fetch("/api/allStudents"); // your API route
         const data = await res.json();
+        console.log("STUDENT DATA:", data);
         setStudents(data);
       } catch (err) {
         console.error(err);
@@ -67,11 +61,11 @@ export default function Students() {
               </div>
               {/* Middle Container */}
               <div className="flex w-[45%]">
-                <div className="flex flex-col px-1 w-2/5">
+                <div className="flex flex-col px-1 w-2/5 w-[40%]">
                   <span className="text-gray-400 text-xs">性別</span><span>{genderMap[student.gender] ?? "未設定"}</span>
                 </div>
-                <div className="flex flex-col px-1 w-3/5">
-                  <span className="text-gray-400 text-xs">学校</span><span></span>
+                <div className="flex flex-col px-1 w-3/5 w-[60%]">
+                  <span className="text-gray-400 text-xs">学校</span><span>{student.school?.schoolName ?? "未設定"}</span>
                 </div>
               </div>
               {/* Button Container */}
