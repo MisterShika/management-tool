@@ -8,6 +8,9 @@ export async function GET(req, context) {
   try {
     const student = await prisma.student.findUnique({
       where: { id: Number(id) },
+      include: {
+        school: true
+      }
     });
 
     if (!student) {
@@ -28,6 +31,7 @@ export async function PUT(req, context) {
   try {
     const body = await req.json();
 
+
     const updatedStudent = await prisma.student.update({
       where: { id: Number(id) },
       data: {
@@ -37,8 +41,7 @@ export async function PUT(req, context) {
         lastNameFurigana: body.lastNameFurigana,
         birthday: body.birthday ? new Date(body.birthday) : undefined,
         address: body.address,
-        // school: body.school,
-        // schoolType: body.schoolType || null,
+        schoolId: body.schoolId ? Number(body.schoolId) : null,
         grade: body.grade,
         gender: body.gender || null,
         color: body.color || "#000000",
