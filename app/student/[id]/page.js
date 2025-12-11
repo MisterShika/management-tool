@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from '@/components/Loading';
+import Link from "next/link";
 
 export default function StudentPage() {
   const { id } = useParams();
@@ -223,7 +224,12 @@ export default function StudentPage() {
                   ) : (
                     // VIEW MODE
                     field.name === "schoolId" ? (
-                      student.school?.schoolName ?? "未設定"
+                      <Link 
+                        href={`/school/${student.school.id}`}
+                        className="text-blue-600 underline"
+                      >
+                      {student.school.schoolName}
+                      </Link> ?? "未設定"
                     ) : field.name === "schoolType" ? (
                       schoolTypeMap[student.school?.schoolType] ?? "未設定"
                     ) : field.options ? (

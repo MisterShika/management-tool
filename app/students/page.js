@@ -65,7 +65,18 @@ export default function Students() {
                   <span className="text-gray-400 text-xs">性別</span><span>{genderMap[student.gender] ?? "未設定"}</span>
                 </div>
                 <div className="flex flex-col px-1 w-3/5 w-[60%]">
-                  <span className="text-gray-400 text-xs">学校</span><span>{student.school?.schoolName ?? "未設定"}</span>
+                  <span className="text-gray-400 text-xs">学校</span>
+                  <span>
+                    {student.school?.schoolName && (
+                      <Link 
+                        href={`/school/${student.school.id}`}
+                        className="text-blue-600 underline"
+                      >
+                        {student.school.schoolName}
+                      </Link>
+                    )}
+                    {!student.school?.schoolName && "未設定"}
+                  </span>
                 </div>
               </div>
               {/* Button Container */}

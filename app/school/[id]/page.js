@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from '@/components/Loading';
+import Link from "next/link";
 
 export default function SingleSchoolPage() {
     const { id } = useParams();
@@ -9,6 +10,8 @@ export default function SingleSchoolPage() {
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState(false);
     const [formData, setFormData] = useState({});
+    const [studentList, setStudentList] = useState([]);
+    const [studentLoading, setStudentLoading] = useState(true);
 
     const schoolTypeMap = {
         ELEMENTARY: '小学校',
@@ -43,7 +46,22 @@ export default function SingleSchoolPage() {
             }
         }
         fetchSchool();
-    }, [id]);  
+    }, [id]); 
+    
+    useEffect(() => {
+        async function fetchStudents() {
+            try{
+                const res = await fetch(`/api/studentsBySchools/${id}`);
+                const data = await res.json();
+                setStudentList(data);
+            } catch(err) {
+                console.error(err);
+            } finally {
+                setStudentLoading(false);
+            }
+        }
+        fetchStudents();
+    }, [id]); 
     
 const handleSave = async () => {
   try {
@@ -133,6 +151,41 @@ const handleSave = async () => {
                 ))}
             </tbody>
             </table>
+            {(!editing && studentList.length > 0) && (
+                <div>
+                    <h2 className="text-xl font-bold mt-2 mb-1">
+                        生徒
+                    </h2>
+                    <div className="min-w-full border border-gray-300">
+                        {studentList.map((student) => {
+                            return(
+                                <div key={student.id}>
+                                    <Link
+                                        href={`/student/${student.id}`}
+                                        className="text-blue-600 underline"
+                                    >
+                                        <span>
+                                            <ruby>
+                                            {student.lastName}
+                                            <rt>{student.lastNameFurigana}</rt>
+                                            </ruby>
+                                        </span>
+                                        <span>
+                                            <ruby>
+                                            {student.firstName}
+                                            <rt>{student.firstNameFurigana}</rt>
+                                            </ruby>
+                                        </span>
+                                    </Link>
+                                    <span>
+                                        {student.grade}
+                                    </span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            )}
             {editing && (
                 <div className="flex gap-2 mt-4">
                     <button
