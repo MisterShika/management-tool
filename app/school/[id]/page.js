@@ -156,13 +156,21 @@ const handleSave = async () => {
                     <h2 className="text-xl font-bold mt-2 mb-1">
                         生徒
                     </h2>
-                    <div className="min-w-full border border-gray-300">
+                    <div className="min-w-full border border-slate-400">
+                        <div className="flex items-end bg-slate-200 border-b border-slate-400">
+                            <div className="w-4/5 px-1">
+                                <strong>名前</strong>
+                            </div>
+                            <div className="w-1/5 border-l border-slate-400 px-1">
+                                <strong>学年</strong>
+                            </div>
+                        </div>
                         {studentList.map((student) => {
                             return(
-                                <div key={student.id}>
+                                <div key={student.id} className="flex items-center py-2 odd:bg-gray-200">
                                     <Link
                                         href={`/student/${student.id}`}
-                                        className="text-blue-600 underline"
+                                        className="text-blue-600 underline w-4/5 px-1"
                                     >
                                         <span>
                                             <ruby>
@@ -177,7 +185,7 @@ const handleSave = async () => {
                                             </ruby>
                                         </span>
                                     </Link>
-                                    <span>
+                                    <span className="w-1/5 px-1 text-center">
                                         {student.grade}
                                     </span>
                                 </div>
