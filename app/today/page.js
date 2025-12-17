@@ -6,6 +6,16 @@ export default function Today() {
   const [loading, setLoading] = useState(true);
   const [dayData, setDayData] = useState([]);
 
+  // Convert ISO → "HH:mm" (LOCAL)
+  const isoToTime = (iso) => {
+    if (!iso) return null;
+    return new Date(iso).toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  };
+
   useEffect(() => {
     const todaysDate = new Date().toISOString().split("T")[0];
 
@@ -13,8 +23,16 @@ export default function Today() {
       try {
         const response = await fetch(`/api/allVisits/byDay/${todaysDate}`);
         if (!response.ok) throw new Error("Failed to fetch data");
+
         const data = await response.json();
-        setDayData(data);
+
+        // 🔑 Normalize once here
+        const normalized = data.map((visit) => ({
+          ...visit,
+          pickUpTime: isoToTime(visit.pickUpTime),
+        }));
+
+        setDayData(normalized);
       } catch (error) {
         console.error("Error fetching today's data:", error);
       } finally {
@@ -96,17 +114,17 @@ export default function Today() {
           </select>
 
           {/* TIME */}
-<input
-  type="time"
-  className="border p-2 rounded"
-  value={visit.pickUpTime ?? ""}
-  onChange={(e) =>
-    updateTime(
-      visit.id,
-      e.target.value === "" ? null : e.target.value
-    )
-  }
-/>
+          <input
+            type="time"
+            className="border p-2 rounded"
+            value={visit.pickUpTime ?? ""}
+            onChange={(e) =>
+              updateTime(
+                visit.id,
+                e.target.value === "" ? null : e.target.value
+              )
+            }
+          />
         </div>
       ))}
     </div>

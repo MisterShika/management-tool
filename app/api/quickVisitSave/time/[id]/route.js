@@ -7,30 +7,40 @@ export async function PATCH(request, { params }) {
 
   const { pickUpTime } = await request.json();
 
+  console.log("Received pickUpTime:", pickUpTime);
+
   let finalTime = null;
 
-  if (pickUpTime !== null) {
-    // get visit date (local, not UTC)
+  if (pickUpTime) {
     const visit = await prisma.visit.findUnique({
       where: { id: visitId },
       select: { date: true },
     });
 
-    const datePart = visit.date.toISOString().split("T")[0];
+    if (!visit) {
+      return NextResponse.json(
+        { error: "Visit not found" },
+        { status: 404 }
+      );
+    }
 
-    // IMPORTANT: do NOT add Z
+    // LOCAL date (important)
+    const datePart = visit.date.toLocaleDateString("en-CA");
+
     finalTime = new Date(`${datePart}T${pickUpTime}:00`);
+
+    if (Number.isNaN(finalTime.getTime())) {
+      return NextResponse.json(
+        { error: "Invalid date constructed" },
+        { status: 400 }
+      );
+    }
   }
 
   const updated = await prisma.visit.update({
     where: { id: visitId },
-    data: {
-      pickUpTime: finalTime,
-    },
-    select: {
-      id: true,
-      pickUpTime: true,
-    },
+    data: { pickUpTime: finalTime },
+    select: { id: true, pickUpTime: true },
   });
 
   return NextResponse.json(updated);

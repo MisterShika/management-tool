@@ -225,10 +225,10 @@ export default function StudentPage() {
                     // VIEW MODE
                     field.name === "schoolId" ? (
                       <Link 
-                        href={`/school/${student.school.id}`}
+                        href={`/school/${student.schoolId}`}
                         className="text-blue-600 underline"
                       >
-                      {student.school.schoolName}
+                      {student.school?.schoolName}
                       </Link> ?? "未設定"
                     ) : field.name === "schoolType" ? (
                       schoolTypeMap[student.school?.schoolType] ?? "未設定"
