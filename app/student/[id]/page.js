@@ -162,6 +162,8 @@ export default function StudentPage() {
             { label: "名", name: "firstName" },
             { label: "生年月日", name: "birthday", type: "date" },
             { label: "住所", name: "address" },
+            { label: "緯度", name: "studentLat" },
+            { label: "経度", name: "studentLon" },
 
             { label: "学校", name: "schoolId" },
 

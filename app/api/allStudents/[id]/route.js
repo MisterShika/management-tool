@@ -37,6 +37,8 @@ export async function PUT(req, context) {
         lastName: body.lastName,
         firstNameFurigana: body.firstNameFurigana,
         lastNameFurigana: body.lastNameFurigana,
+        studentLat: body.studentLat,
+        studentLon: body.studentLon,
         birthday: body.birthday ? new Date(body.birthday) : undefined,
         address: body.address,
         schoolId: body.schoolId ? Number(body.schoolId) : null,
