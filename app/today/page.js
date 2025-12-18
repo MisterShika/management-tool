@@ -95,22 +95,6 @@ export default function Today() {
     }
   };
 
-    const testData = [
-  {
-    name: "Sato",
-    lat: 35.6895,
-    lon: 139.6917,
-    color: "#4285F4", // blue
-  },
-  {
-    name: "Tanaka",
-    lat: 35.685,
-    lon: 139.70,
-    color: "#EA4335", // red
-  },
-  ];
-
-
   /* ----------------------------------
      UPDATE TIME (NO REFETCH NEEDED)
   ---------------------------------- */
@@ -139,22 +123,23 @@ export default function Today() {
      RENDER
   ---------------------------------- */
   return (
-    <div className="space-y-6">
+    <div>
       <h1 className="text-xl font-bold">Today's Data</h1>
 
       {/* STUDENT LIST */}
-      <div className="space-y-2">
+      <div>
         {dayData.map((visit) => (
           <div
             key={visit.id}
-            className="flex items-center gap-4 border p-3 rounded"
+            className="flex items-center gap-4 border-2 p-3 rounded mb-2 bg-gray-100"
+            style={{ borderColor: visit.student.color }}
           >
-            <h2 className="w-40">
+            <h2 className="w-28">
               {visit.student.lastName} {visit.student.firstName}
             </h2>
 
             {visit.lesson?.name && (
-              <p className="w-32">{visit.lesson.name}</p>
+              <p>{visit.lesson.name}</p>
             )}
 
             {/* LOCATION */}
@@ -187,8 +172,7 @@ export default function Today() {
       </div>
 
       {/* MAP DATA (DEBUG VIEW) */}
-      <div className="space-y-1 text-sm text-gray-600">
-        <h2 className="font-semibold">Map Data</h2>
+      <div className="text-sm text-gray-600">
         <VisitMap locations={mapData} />
       </div>
     </div>
