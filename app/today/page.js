@@ -4,9 +4,10 @@ import Loading from "@/components/Loading";
 
 import dynamic from "next/dynamic";
 
-const VisitMap = dynamic(() => import("@/components/VisitMap"), {
-  ssr: false,
-});
+const VisitMap = dynamic(
+  () => import("@/components/VisitMap"),
+  { ssr: false }
+);
 
 export default function Today() {
   const [loading, setLoading] = useState(true);
@@ -69,9 +70,11 @@ export default function Today() {
         name: visit.student.lastName,
         lat: visit.pickupCoords.lat,
         lon: visit.pickupCoords.lon,
+        color: visit.student.color
       }));
 
     setMapData(mapped);
+    console.log("Map Data:", mapped);
   }, [dayData]);
 
   /* ----------------------------------
@@ -93,8 +96,18 @@ export default function Today() {
   };
 
     const testData = [
-    { name: "Sato", lat: 35.6895, lon: 139.6917 },
-    { name: "Tanaka", lat: 35.685, lon: 139.70 },
+  {
+    name: "Sato",
+    lat: 35.6895,
+    lon: 139.6917,
+    color: "#4285F4", // blue
+  },
+  {
+    name: "Tanaka",
+    lat: 35.685,
+    lon: 139.70,
+    color: "#EA4335", // red
+  },
   ];
 
 
@@ -176,12 +189,7 @@ export default function Today() {
       {/* MAP DATA (DEBUG VIEW) */}
       <div className="space-y-1 text-sm text-gray-600">
         <h2 className="font-semibold">Map Data</h2>
-        {/* {mapData.map((loc, index) => (
-          <div key={index}>
-            {loc.name}: ({loc.lat}, {loc.lon})
-          </div>
-        ))} */}
-        <VisitMap locations={testData} />
+        <VisitMap locations={mapData} />
       </div>
     </div>
   );

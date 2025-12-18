@@ -1,6 +1,7 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, TileLayer, Marker, useMap  } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "@/lib/leaflet";
@@ -43,11 +44,28 @@ const makePickupIcon = (label, color) =>
     `,
   });
 
+
+function FitBounds({ locations }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!locations.length) return;
+
+    const bounds = locations.map((loc) => [loc.lat, loc.lon]);
+    map.fitBounds(bounds, {
+      padding: [40, 40], // space around edges
+      maxZoom: 16,       // prevent zooming in too far
+    });
+  }, [locations, map]);
+
+  return null;
+}
+
 export default function VisitMap({ locations }) {
   return (
     <MapContainer
-      center={[35.6895, 139.6917]} // Tokyo
-      zoom={13}
+      center={[43.10160200047244, 141.54766074306605]} // ComeCome
+      zoom={14}
       style={{ height: "400px", width: "100%" }}
     >
       <TileLayer
@@ -55,14 +73,13 @@ export default function VisitMap({ locations }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
+      <FitBounds locations={locations} />
+
       {locations.map((loc, i) => (
         <Marker
           key={i}
           position={[loc.lat, loc.lon]}
-          icon={makePickupIcon(
-            loc.name,
-            loc.type === "HOME" ? "#4285F4" : "#34A853"
-          )}
+          icon={makePickupIcon(loc.name, loc.color)}
         />
       ))}
     </MapContainer>
