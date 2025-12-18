@@ -16,10 +16,12 @@
     "@fortawesome/react-fontawesome": "^3.0.2",
     "@prisma/client": "^6.16.3",
     "cookie": "^1.0.2",
+    "leaflet": "^1.9.4",
     "next": "15.5.4",
     "react": "19.1.0",
     "react-calendar": "^6.0.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
