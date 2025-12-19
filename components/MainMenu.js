@@ -31,8 +31,8 @@ export default function MainMenu() {
                 buttonColor="bg-purple-600"
             />
             <MenuButton 
-                buttonTitle="今日"
-                link="/today"
+                buttonTitle="迎え"
+                link="/pickup"
                 buttonColor="bg-amber-600"
             />
             <MenuButton 

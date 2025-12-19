@@ -12,15 +12,15 @@ import "@/lib/leaflet";
  */
 const makePickupIcon = (label, color) =>
   L.divIcon({
-    className: "", // important: no default leaflet styles
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    className: "",
+    iconSize: [40, 46],        // include label height
+    iconAnchor: [20, 46],      // bottom-center of pin
     html: `
       <div style="
-        transform: translate(-50%, -100%);
         display: flex;
         flex-direction: column;
         align-items: center;
+        pointer-events: none;
       ">
         <svg
           width="32"
@@ -30,6 +30,7 @@ const makePickupIcon = (label, color) =>
         >
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
         </svg>
+
         <div style="
           font-size: 11px;
           margin-top: -4px;
@@ -44,6 +45,11 @@ const makePickupIcon = (label, color) =>
     `,
   });
 
+const staticCenterIcon = L.icon({
+  iconUrl: "/icons/logoHead.svg",
+  iconSize: [36, 36],     // match your SVG
+  iconAnchor: [18, 36],   // bottom-center
+});
 
 function FitBounds({ locations }) {
   const map = useMap();
@@ -51,7 +57,12 @@ function FitBounds({ locations }) {
   useEffect(() => {
     if (!locations.length) return;
 
-    const bounds = locations.map((loc) => [loc.lat, loc.lon]);
+    const centerPin = [43.10160200047244, 141.54766074306605];
+
+    const bounds = [
+      centerPin,
+      ...locations.map((loc) => [loc.lat, loc.lon]),
+    ];
     map.fitBounds(bounds, {
       padding: [40, 40], // space around edges
       maxZoom: 16,       // prevent zooming in too far
@@ -74,6 +85,11 @@ export default function VisitMap({ locations }) {
       />
 
       <FitBounds locations={locations} />
+
+      <Marker
+        position={[43.10160200047244, 141.54766074306605]}
+        icon={staticCenterIcon}
+      />
 
       {locations.map((loc, i) => (
         <Marker
