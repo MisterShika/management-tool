@@ -30,6 +30,7 @@ export async function PUT(req, context) {
 
   try {
     const body = await req.json();
+
     const updatedStudent = await prisma.student.update({
       where: { id: Number(id) },
       data: {
@@ -46,6 +47,9 @@ export async function PUT(req, context) {
         gender: body.gender || null,
         color: body.color || "#000000",
         isActive: typeof body.isActive === "boolean" ? body.isActive : true,
+      },
+      include: {
+        school: true,
       },
     });
 
