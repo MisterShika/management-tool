@@ -138,10 +138,6 @@ export default function Pickup() {
               {visit.student.lastName} {visit.student.firstName}
             </h2>
 
-            {visit.lesson?.name && (
-              <p>{visit.lesson.name}</p>
-            )}
-
             {/* LOCATION */}
             <select
               className="border p-2 rounded"
