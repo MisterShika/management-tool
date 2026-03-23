@@ -15,18 +15,18 @@ enum AccessLevel {
 
 /// Represents a user of the system (admin or staff)
 model User {
-  id                 Int         @id @default(autoincrement())  // user ID
-  userCode           String      @unique @db.VarChar(4)
-  firstName          String
-  firstNameFurigana  String
-  lastName           String
-  lastNameFurigana   String
-  pin                String      @db.VarChar(4)
-  access             AccessLevel @default(STAFF)
-  createdAt          DateTime    @default(now())
-  visitsAdded        Visit[]         @relation("UserAddedVisits")
-  reportsAdded       DailyReport[]   @relation("UserAddedReports")
-  isActive           Boolean    @default(true)
+  id                Int           @id @default(autoincrement()) // user ID
+  userCode          String        @unique @db.VarChar(4)
+  firstName         String
+  firstNameFurigana String
+  lastName          String
+  lastNameFurigana  String
+  pin               String        @db.VarChar(4)
+  access            AccessLevel   @default(STAFF)
+  createdAt         DateTime      @default(now())
+  visitsAdded       Visit[]       @relation("UserAddedVisits")
+  reportsAdded      DailyReport[] @relation("UserAddedReports")
+  isActive          Boolean       @default(true)
 }
 
 enum Gender {
@@ -47,7 +47,7 @@ enum SchoolType {
 /// current school and grade, and tracks last edited timestamp.
 /// Related visits are also connected to this student.
 model Student {
-  id                Int        @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   firstName         String
   lastName          String
   firstNameFurigana String?
@@ -57,27 +57,28 @@ model Student {
   phoneNumber       String?
   addressLat        String?
   addressLon        String?
-  school            School?    @relation(fields: [schoolId], references: [id])
+  school            School?            @relation(fields: [schoolId], references: [id])
   schoolId          Int?
   grade             String?
-  gender            Gender?    // optional
-  lastEdited        DateTime   @updatedAt
-  visits            Visit[]    // relationship to Visit
-  color             String     @default("#000000") // default black, will overwrite in seed or API
+  gender            Gender? // optional
+  lastEdited        DateTime           @updatedAt
+  visits            Visit[] // relationship to Visit
+  color             String             @default("#000000") // default black, will overwrite in seed or API
   studentLat        String?
   studentLon        String?
-  isActive          Boolean    @default(true) // indicates if the student is currently active
+  isActive          Boolean            @default(true) // indicates if the student is currently active
+  completions       LessonCompletion[]
 }
 
 model School {
-  id                Int        @id @default(autoincrement())
-  schoolName        String
-  schoolAddress     String
-  schoolPhone       String?
-  schoolType        SchoolType @default(ELEMENTARY)
-  schoolLat         String?
-  schoolLon         String?
-  students          Student[]
+  id            Int        @id @default(autoincrement())
+  schoolName    String
+  schoolAddress String
+  schoolPhone   String?
+  schoolType    SchoolType @default(ELEMENTARY)
+  schoolLat     String?
+  schoolLon     String?
+  students      Student[]
 }
 
 enum VisitStatus {
@@ -105,25 +106,25 @@ model Visit {
   // faster than others, so while one lesson is planned there can be 
   // multiple completions.
   lesson       Lesson?            @relation(fields: [lessonId], references: [id])
-  lessonId     Int?               // optional if no lesson for this visit
+  lessonId     Int? // optional if no lesson for this visit
   dailyReports DailyReport[]
   completions  LessonCompletion[] // back-relation for tracking lessons
   addedBy      User?              @relation("UserAddedVisits", fields: [addedById], references: [id])
   addedById    Int?
-  createdAt    DateTime @default(now())
+  createdAt    DateTime           @default(now())
   pickUpLoc    PickUpLocation     @default(NONE)
   pickUpTime   DateTime?
 }
 
 /// Represents a report for a visit (e.g., how a student did that day)
 model DailyReport {
-  id           Int    @id @default(autoincrement())
-  visit        Visit  @relation(fields: [visitId], references: [id])
-  visitId      Int
-  addedBy      User?        @relation("UserAddedReports", fields: [addedById], references: [id])
-  addedById    Int?
-  note         String
-  createdAt    DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  visit     Visit    @relation(fields: [visitId], references: [id])
+  visitId   Int
+  addedBy   User?    @relation("UserAddedReports", fields: [addedById], references: [id])
+  addedById Int?
+  note      String
+  createdAt DateTime @default(now())
 }
 
 enum LessonType {
@@ -141,19 +142,26 @@ model Lesson {
   focus       String?
   description String?
   url         String?
-  type        LessonType        @default(FREE)
-  visits      Visit[]            // back-relation
+  type        LessonType         @default(FREE)
+  visits      Visit[] // back-relation
   completions LessonCompletion[] // back-relation for tracking completions
 }
 
 /// Connects lessons to visits for historical tracking (optional)
 model LessonCompletion {
-  id          Int      @id @default(autoincrement())
-  lesson      Lesson   @relation(fields: [lessonId], references: [id])
-  lessonId    Int
-  visit       Visit    @relation(fields: [visitId], references: [id])
-  visitId     Int
+  id Int @id @default(autoincrement())
+
+  lessonId  Int
+  visitId   Int
+  studentId Int
+
   completedAt DateTime @default(now())
 
-  @@unique([lessonId, visitId]) // ensures one completion per lesson per visit
+  lesson  Lesson  @relation(fields: [lessonId], references: [id])
+  visit   Visit   @relation(fields: [visitId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, lessonId, visitId])
+  @@index([studentId])
+  @@index([lessonId])
 }

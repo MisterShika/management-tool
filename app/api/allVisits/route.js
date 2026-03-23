@@ -13,7 +13,10 @@ export async function GET(req) {
   const visits = await prisma.visit.findMany({
     where: { date: { gte: start, lte: end } },
     include: { student: true, lesson: true },
-    orderBy: { date: "asc" },
+    orderBy: [
+      { date: "asc" },
+      { id: "asc" }
+    ]
   });
 
   return new Response(JSON.stringify(visits), {
