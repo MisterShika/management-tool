@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from '@/components/Loading';
+import StudentLessonDone from "@/components/StudentLessonDone";
 import Link from "next/link";
 
 export default function StudentPage() {
@@ -256,6 +257,9 @@ export default function StudentPage() {
           })}
         </tbody>
       </table>
+  
+      {/* Finished Lessons */}
+      <StudentLessonDone passedStudentId={student.id} />
 
       {/* Buttons */}
       {editing && (
