@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 // GET /api/allUsers/[id]
 export async function GET(request, { params }) {
   try {
-    const { id } = await params; // ✅ await here
+    const { id } = await params; 
 
     const userId = parseInt(id, 10);
     if (isNaN(userId)) {

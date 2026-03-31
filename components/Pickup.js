@@ -13,6 +13,7 @@ export default function Pickup() {
   const [loading, setLoading] = useState(true);
   const [dayData, setDayData] = useState([]);
   const [mapData, setMapData] = useState([]);
+  const [drivers, setDrivers] = useState([]);
 
   /* ----------------------------------
      ISO → "HH:mm" (LOCAL TIME)
@@ -49,11 +50,24 @@ export default function Pickup() {
     }
   };
 
+  /** Fetch Drivers */
+  const fetchDrivers = async () => {
+    try {
+      const response = await fetch("/api/allUsers/drivers");
+      if (!response.ok) throw new Error("Failed to fetch drivers");
+
+      const drivers = await response.json();
+      setDrivers(drivers);
+    } catch (error) {
+      console.error("Error fetching drivers:", error);
+    }
+  };
+
   /* ----------------------------------
      INITIAL LOAD
   ---------------------------------- */
   useEffect(() => {
-    fetchTodayData().finally(() => setLoading(false));
+    fetchTodayData().then(() => fetchDrivers()).finally(() => setLoading(false));
   }, []);
 
   /* ----------------------------------
@@ -117,6 +131,25 @@ export default function Pickup() {
     }
   };
 
+  const updateDriver = async (visitId, driverId) => {
+    // optimistic UI update
+    setDayData((prev) =>
+      prev.map((v) =>
+        v.id === visitId ? { ...v, driverId } : v
+      )
+    );
+
+    try {
+      await fetch(`/api/quickVisitSave/driver/${visitId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ driverId }),
+      });
+    } catch (err) {
+      console.error("Failed to update driver", err);
+    }
+  };
+
   if (loading) return <Loading />;
 
   /* ----------------------------------
@@ -149,6 +182,22 @@ export default function Pickup() {
               <option value="NONE">　</option>
               <option value="HOME">家庭</option>
               <option value="SCHOOL">学校</option>
+            </select>
+
+            {/* Driver */}
+            <select className="border p-2 rounded"
+              value={visit.driverId ?? "NONE"}
+              onChange={(e) =>
+                updateDriver(visit.id, e.target.value)
+              }
+            >
+              <option value="NONE">　</option>
+
+              {drivers.map((driver) => (
+                <option key={driver.id} value={driver.id}>
+                  {driver.lastName}
+                </option>
+              ))}
             </select>
 
             {/* TIME */}

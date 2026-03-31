@@ -26,8 +26,9 @@ model User {
   createdAt         DateTime      @default(now())
   visitsAdded       Visit[]       @relation("UserAddedVisits")
   reportsAdded      DailyReport[] @relation("UserAddedReports")
-  isDriver          Boolean       @default(true)
+  isDriver          Boolean       @default(false)
   isActive          Boolean       @default(true)
+  drivingVisits     Visit[]       @relation("DriverVisits")
 }
 
 enum Gender {
@@ -115,6 +116,8 @@ model Visit {
   createdAt    DateTime           @default(now())
   pickUpLoc    PickUpLocation     @default(NONE)
   pickUpTime   DateTime?
+  driver     User?  @relation("DriverVisits", fields: [driverId], references: [id])
+  driverId   Int?
 }
 
 /// Represents a report for a visit (e.g., how a student did that day)
