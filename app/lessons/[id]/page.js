@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Loading from '@/components/Loading';
+import CompletedLessonStudentList from '@/components/CompletedLessonStudentList';
 
 export default function LessonPage() {
   const { id } = useParams();
@@ -126,6 +127,9 @@ export default function LessonPage() {
           ))}
         </tbody>
       </table>
+
+      {/* Display Students who completed this lesson */}
+      <CompletedLessonStudentList passedLessonId={lesson.id} />
 
       {editing && (
         <div className="flex gap-2 mt-4">

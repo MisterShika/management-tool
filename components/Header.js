@@ -10,8 +10,10 @@ export default function Header() {
     const isHome = pathname === "/";
 
     return(
-        <header className="py-4 text-center w-full bg-yellow-400 mb-6 border-b border-yellow-500">
-            <Link href="/">
+        <header className="flex flex-col items-center py-4 text-center w-full bg-yellow-400 mb-6 border-b border-yellow-500">
+            <Link 
+            className="inline-block"
+            href="/">
                 <Image
                     src="/images/logoMain.png"
                     alt="Logo"

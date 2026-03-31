@@ -84,12 +84,12 @@ export default function CalendarPage() {
             <div className="w-full flex flex-col items-center justify-between">
               <div className="flex flex-1 w-full">
                 {dayEvents.length > 0 && (
-                  <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-16">
+                  <ul className="mt-1 w-full flex flex-col items-start px-1 overflow-y-auto max-h-21">
                     {dayEvents.map((e) => (
                       <li
                         onClick={() => router.push(`/visits/${e.id}`)}
                         key={e.id}
-                        className="text-xs rounded px-1 mb-1 bg-white text-black cursor-pointer hover:bg-emerald-100 transition"
+                        className="text-xs rounded px-1 mb-1 mr-1 bg-white text-black cursor-pointer hover:bg-emerald-100 transition"
                         style={{ border: `2px solid ${e.color}` }}
                       >
                         {e.title}
@@ -159,6 +159,16 @@ export default function CalendarPage() {
         }
         .react-calendar__month-view__days__day--weekend {
           background: #f0f8ff;
+        }
+        .react-calendar .react-calendar__tile ul{
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .react-calendar .react-calendar__tile>div{
+          flex-grow: 1;
+          flex-shrink: 1;
+          flex-basis: 0%;
         }
       `}</style>
     </div>
