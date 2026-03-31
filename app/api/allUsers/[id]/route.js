@@ -23,6 +23,7 @@ export async function GET(request, { params }) {
         pin: true,
         access: true,
         createdAt: true,
+        isDriver: true,
         isActive: true,
       },
     });
@@ -56,6 +57,7 @@ export async function PUT(request, { params }) {
         lastName: body.lastName,
         lastNameFurigana: body.lastNameFurigana,
         pin: body.pin,
+        isDriver: body.isDriver,
         access: body.access,
       },
     });

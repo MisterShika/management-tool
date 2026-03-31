@@ -73,7 +73,7 @@ export default function UserPage() {
       });
       if (!res.ok) throw new Error("Failed to delete user");
       alert("ユーザーを無効化しました。");
-      router.push("/staff"); // ✅ redirect after delete
+      router.push("/staff"); 
     } catch (err) {
       console.error(err);
       alert("削除に失敗しました。");
@@ -107,6 +107,7 @@ export default function UserPage() {
             { label: "ふりがな（名）", name: "firstNameFurigana" },
             { label: "名", name: "firstName" },
             { label: "PINコード", name: "pin" },
+            { label: "運転", name: "isDriver" },
             { label: "アクセス権限", name: "access", options: accessMap },
           ].map((field) => (
             <tr key={field.name}>
@@ -126,6 +127,19 @@ export default function UserPage() {
                         </option>
                       ))}
                     </select>
+                  ) : field.name === "isDriver" ? (
+                    <input
+                      type="checkbox"
+                      name="isDriver"
+                      checked={!!formData.isDriver}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          isDriver: e.target.checked,
+                        }))
+                      }
+                      className="w-5 h-5"
+                    />
                   ) : (
                     <input
                       type="text"
@@ -142,6 +156,8 @@ export default function UserPage() {
                   )
                 ) : field.options ? (
                   field.options[user[field.name]] ?? "未設定"
+                ) : field.name === "isDriver" ? (
+                  user.isDriver ? "はい" : "いいえ"
                 ) : (
                   user[field.name]
                 )}
