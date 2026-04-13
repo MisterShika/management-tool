@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Loading from "@/components/Loading";
 import ConnectLesson from "@/components/ConnectLesson";
 import ConnectReport from "@/components/ConnectReport";
@@ -227,7 +228,13 @@ export default function VisitPage() {
                     {visit.completions.length > 0 ? (
                       <div className="w-full">
                         {visit.completions.map((completion) => (
-                          <div key={completion.id}>{completion.lesson.name}</div>
+                          <div key={completion.id}>
+                            <Link href={`/lessons/${completion.lesson.id}`}
+                              className="text-blue-600 underline"
+                            >
+                              {completion.lesson.name}
+                            </Link>
+                          </div>
                         ))}
                       </div>
                     ) : (
@@ -347,6 +354,7 @@ export default function VisitPage() {
       {showLessonModal && (
         <ConnectLesson 
           visitId={visit.id}
+          studentId={visit.student.id}
           onClose={() => {
             setShowLessonModal(false);
             fetchVisit();     // <--- re-fetch page data!
@@ -356,6 +364,7 @@ export default function VisitPage() {
       {showReportModal && (
         <ConnectReport 
           visitId={visit.id}
+          studentId={visit.student.id}
           onClose={() => {
             setShowReportModal(false)
             fetchVisit();     // <--- re-fetch page data!

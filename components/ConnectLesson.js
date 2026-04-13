@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function ConnectLesson({ visitId, onClose }) {
+export default function ConnectLesson({ visitId, studentId,onClose }) {
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedType, setSelectedType] = useState("");
@@ -14,6 +14,7 @@ export default function ConnectLesson({ visitId, onClose }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         visitId: Number(visitId),
+        studentId: Number(studentId),
         lessonId: Number(selectedLessonId),
       }),
     });
@@ -24,7 +25,6 @@ export default function ConnectLesson({ visitId, onClose }) {
       onClose();
     } catch (err) {
       console.error(err);
-      alert("追加に失敗しました。");
     }
   };
 

@@ -30,20 +30,42 @@ export default function TodaysLesson () {
     if (loading) return <Loading />;
 
     return (
-        <div>
+        <div 
+            className="mt-2 border border-gray-200"
+        >
             {
                 lessonData.map((visit) => (
-                    <div key={visit.id}>
-                        <Link href={`/visits/${visit.id}`}>
-                            <span>{visit.student.firstName} {visit.student.lastName} - </span>
+                    <div key={visit.id}
+                        className="flex justify-between items-center p-1 border-gray-200 border-b last:border-b-0" 
+                    >
+                        {/** Left Side */}
+                        <div>
+                            <Link 
+                            className="text-blue-600 underline"
+                            href={`/student/${visit.student.id}`}>
+                                <span>{visit.student.firstName} {visit.student.lastName}</span>
+                            </Link>
+                            <span
+                                className="px-2 "
+                            >
+                                :
+                            </span>
                             <span>
                                 {
                                     visit.lesson?.id
-                                        ? visit.lesson.name
+                                        ? <Link href={`/lessons/${visit.lesson.id}`} className="text-blue-600 underline">{visit.lesson.name}</Link>
                                         : "レッスン未設定"
                                 }
                             </span>
-                        </Link>
+                        </div>
+                        {/** Right Side */}
+                        <div>
+                            <Link href={`/visits/${visit.id}`}>
+                                <button className="p-1 py-0 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                    訪問を見る
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 ))
             }

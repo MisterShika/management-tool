@@ -3,12 +3,13 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req) {
   const body = await req.json();
-
+  console.log("Received POST data for lesson completion:", body);
   try {
     const completion = await prisma.lessonCompletion.create({
       data: {
         lessonId: body.lessonId,
         visitId: body.visitId,
+        studentId: body.studentId,
       },
     });
     return NextResponse.json(completion);
