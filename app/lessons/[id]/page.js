@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from "next/link";
 import Loading from '@/components/Loading';
 import CompletedLessonStudentList from '@/components/CompletedLessonStudentList';
 
@@ -119,6 +120,14 @@ export default function LessonPage() {
                   )
                 ) : field.options ? (
                   field.options[lesson[field.name]] || '未設定'
+                ) : field.name === 'url' ? (
+                  lesson.url ? (
+                    <Link href={`/lessons/${lesson.url}`} className="text-blue-600 underline">
+                      {lesson.url}
+                    </Link>
+                  ) : (
+                    ''
+                  )
                 ) : (
                   lesson[field.name] || ''
                 )}
