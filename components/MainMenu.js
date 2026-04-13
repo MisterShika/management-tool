@@ -21,25 +21,27 @@ export default function MainMenu() {
                 buttonColor="bg-green-600"
             />
             <MenuButton 
-                buttonTitle="予定"
-                link="/calendar"
-                buttonColor="bg-red-600"
+                buttonTitle="学校"
+                link="/schools"
+                buttonColor="bg-rose-600"
             />
+            
             <MenuButton 
                 buttonTitle="授業"
                 link="/lessons"
                 buttonColor="bg-purple-600"
             />
             <MenuButton 
+                buttonTitle="予定"
+                link="/calendar"
+                buttonColor="bg-slate-600"
+            />
+            <MenuButton 
                 buttonTitle="迎え"
                 link="/pickup"
                 buttonColor="bg-amber-600"
             />
-            <MenuButton 
-                buttonTitle="学校"
-                link="/schools"
-                buttonColor="bg-rose-600"
-            />
+            
             { // This is maybe unecessary since this is accessible from other page but keeping just in case
             //<MenuButton 
             //    buttonTitle="課題"

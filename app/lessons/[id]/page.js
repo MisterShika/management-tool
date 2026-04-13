@@ -122,7 +122,11 @@ export default function LessonPage() {
                   field.options[lesson[field.name]] || '未設定'
                 ) : field.name === 'url' ? (
                   lesson.url ? (
-                    <Link href={`/lessons/${lesson.url}`} className="text-blue-600 underline">
+                    <Link href={`/lessons/${lesson.url}`} 
+                    className="text-blue-600 underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >
                       {lesson.url}
                     </Link>
                   ) : (

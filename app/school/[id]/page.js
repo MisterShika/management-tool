@@ -172,7 +172,9 @@ const handleSave = async () => {
                                         href={`/student/${student.id}`}
                                         className="text-blue-600 underline w-4/5 px-1"
                                     >
-                                        <span>
+                                        <span
+                                            className="mr-2"
+                                        >
                                             <ruby>
                                             {student.lastName}
                                             <rt>{student.lastNameFurigana}</rt>

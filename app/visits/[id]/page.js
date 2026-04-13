@@ -125,12 +125,20 @@ export default function VisitPage() {
           <div className="flex items-center">
             <h2 className="text-xl font-bold">
               <ruby>
-                {visit.student.lastName}
+                <Link href={`/student/${visit.student.id}`}
+                  className="text-blue-600 underline"
+                >
+                  {visit.student.lastName}
+                </Link>
                 <rt>{visit.student.lastNameFurigana}</rt>
               </ruby>
               &emsp;
               <ruby>
-                {visit.student.firstName}
+                <Link href={`/student/${visit.student.id}`}
+                  className="text-blue-600 underline"
+                >
+                  {visit.student.firstName}
+                </Link>
                 <rt>{visit.student.firstNameFurigana}</rt>
               </ruby>
             </h2>

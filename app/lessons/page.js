@@ -96,6 +96,8 @@ export default function Lessons() {
                   <div className="">
                     <Link href={lesson.url}
                       className="text-blue-600 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       外部リンク
                     </Link>
