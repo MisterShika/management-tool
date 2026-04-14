@@ -34,6 +34,7 @@ export async function PUT(req, { params }) {
         url: body.url,
         type: body.type,
         focus: body.focus,
+        isActive: body.isActive,
       }
     });
 
@@ -41,5 +42,21 @@ export async function PUT(req, { params }) {
   } catch (err) {
     console.error("Error updating lesson:", err);
     return new Response("Failed to update lesson", { status: 500 });
+  }
+}
+
+export async function DELETE(req, context) {
+  const params = await context.params;
+  const { id } = params;
+
+  try {
+    const deletedLesson = await prisma.lesson.update({
+      where: { id: Number(id) },
+      data: { isActive: false }, // Soft-delete by switching to false
+    });
+    return new Response(JSON.stringify(deletedLesson), { status: 200 });
+  } catch (err) {
+    console.error("Error deleting lesson:", err);
+    return new Response("Failed to delete lesson", { status: 500 });
   }
 }

@@ -33,6 +33,7 @@ export default function LessonPage() {
           description: data.description || '',
           url: data.url || '',
           type: data.type || 'FREE',
+          isActive: String(data.isActive),
         });
       } catch (err) {
         console.error(err);
@@ -57,7 +58,10 @@ export default function LessonPage() {
       const res = await fetch(`/api/allLessons/byId/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          isActive: formData.isActive === 'true',
+        }),
       });
       if (!res.ok) throw new Error('Failed to save lesson');
       const updated = await res.json();
@@ -66,6 +70,20 @@ export default function LessonPage() {
     } catch (err) {
       console.error(err);
       alert('更新に失敗しました。');
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("本当にこのレッスンを削除しますか？")) return;
+    try {
+      const res = await fetch(`/api/allLessons/byId/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete lesson");
+      alert("レッスンを削除しました。");
+      window.location.href = "/lessons";
+
+    } catch (err) {
+      console.error(err);
+      alert("削除に失敗しました。");
     }
   };
 
@@ -90,6 +108,7 @@ export default function LessonPage() {
             { label: 'フォーカス', name: 'focus' },
             { label: '説明', name: 'description' },
             { label: 'URL', name: 'url' },
+            { label: 'アクティブ', name: 'isActive', options: { true: 'はい', false: 'いいえ' } },
             { label: 'タイプ', name: 'type', options: lessonTypeMap },
           ].map((field) => (
             <tr key={field.name}>
@@ -157,6 +176,12 @@ export default function LessonPage() {
             onClick={() => setEditing(false)}
           >
             キャンセル
+          </button>
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded ml-auto"
+            onClick={handleDelete}
+          >
+            削除
           </button>
         </div>
       )}

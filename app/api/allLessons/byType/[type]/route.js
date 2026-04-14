@@ -12,7 +12,10 @@ export async function GET(request, context) {
     }
 
     const lessons = await prisma.lesson.findMany({
-      where: { type },
+      where: {
+        isActive: true,
+        type,
+      },
       select: {
         id: true,
         name: true,

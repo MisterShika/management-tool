@@ -147,7 +147,7 @@ model Lesson {
   description String?
   url         String?
   type        LessonType         @default(FREE)
-  isArchive   Boolean            @default(true) // Lesson is archived or not
+  isActive    Boolean            @default(true) // Lesson is archived or not
   visits      Visit[] // back-relation
   completions LessonCompletion[] // back-relation for tracking completions
 }
