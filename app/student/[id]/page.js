@@ -43,7 +43,8 @@ export default function StudentPage() {
           birthday: data.birthday
             ? new Date(data.birthday).toISOString().substring(0, 10)
             : "",
-          schoolId: data.school?.id ?? "",   // IMPORTANT
+          schoolId: data.school?.id ?? "",
+          isActive: String(data.isActive), 
         });
 
       } catch (err) {
@@ -92,7 +93,8 @@ export default function StudentPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          schoolId: formData.schoolId ? Number(formData.schoolId) : null, 
+          schoolId: formData.schoolId ? Number(formData.schoolId) : null,
+          isActive: formData.isActive === 'true', 
         }),
       });
 
@@ -171,7 +173,11 @@ export default function StudentPage() {
             { label: "学校種別", name: "schoolType", options: schoolTypeMap },
             { label: "学年", name: "grade" },
             { label: "性別", name: "gender", options: genderMap },
-            { label: "アクティブ", name: "isActive", type: "checkbox" },
+            { 
+              label: 'アクティブ',
+              name: 'isActive',
+              options: { 'true': 'はい', 'false': 'いいえ' }
+            },
             { label: "色", name: "color", type: "color" },
           ].map((field) => {
             if (editing && field.name === "schoolType") return null;
@@ -207,15 +213,17 @@ export default function StudentPage() {
                         onChange={handleChange}
                         className="border px-2 py-1 rounded"
                       >
+                      {field.name !== 'isActive' && (
                         <option value="">未設定</option>
-                        {Object.entries(field.options).map(([key, label]) => (
-                          <option key={key} value={key}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
+                      )}
 
-                    ) : (
+                      {Object.entries(field.options).map(([key, label]) => (
+                        <option key={key} value={key}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
                       <input
                         type={field.type || "text"}
                         name={field.name}
