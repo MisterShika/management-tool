@@ -8,6 +8,9 @@ export async function GET() {
       where: {
         isActive: true,
       },
+      orderBy: {
+        name: 'asc',
+      },
       select: {
         id: true,
         name: true,

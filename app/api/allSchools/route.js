@@ -9,6 +9,7 @@ export async function GET() {
                 schoolName: true,
                 schoolType: true,
                 schoolAddress: true,
+                schoolPhone: true,
                 schoolLat: true,
                 schoolLon: true,
             },
@@ -33,6 +34,8 @@ export async function POST(request) {
             schoolLat,
             schoolLon,
             schoolType,
+            schoolPhone,
+
         } = body;
 
         // basic validation (optional)
@@ -50,6 +53,7 @@ export async function POST(request) {
                 schoolLat,
                 schoolLon,
                 schoolType,
+                schoolPhone,
             },
         });
 

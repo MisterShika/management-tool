@@ -10,6 +10,7 @@ export default function AddSchoolPage() {
         schoolAddress: '',
         schoolLat: '',
         schoolLon: '',
+        schoolPhone: '',
         schoolType: 'ELEMENTARY',
     });
 
@@ -36,6 +37,7 @@ export default function AddSchoolPage() {
                 schoolAddress: '',
                 schoolLat: '',
                 schoolLon: '',
+                schoolPhone: '',
                 schoolType: 'ELEMENTARY',
             });
         }catch (err) {
@@ -71,7 +73,7 @@ export default function AddSchoolPage() {
                 <div>
                     <label className="block font-medium mb-1">タイプ *</label>
                     <select
-                        name="type"
+                        name="schoolType"
                         className="w-full border rounded p-2"
                         value={formData.schoolType}
                         onChange={handleChange}
@@ -82,6 +84,16 @@ export default function AddSchoolPage() {
                         <option value="HIGH">高校</option>
                         <option value="OTHER">他</option>
                     </select>
+                </div>
+
+                <div>
+                    <label className="block font-medium mb-1">電話番号</label>
+                    <input
+                    name="schoolPhone"
+                    className="w-full border rounded p-2"
+                    value={formData.schoolPhone}
+                    onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <label className="block font-medium mb-1">緯度</label>

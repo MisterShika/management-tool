@@ -16,6 +16,9 @@ export async function GET(request, context) {
         isActive: true,
         type,
       },
+      orderBy: {
+        name: 'asc',
+      },
       select: {
         id: true,
         name: true,

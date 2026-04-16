@@ -161,7 +161,7 @@ export default function AddStudent() {
             required
           >
             <option value="">学校を選択</option>
-
+            <option value="">未指定</option>
             {schools.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.schoolName}
