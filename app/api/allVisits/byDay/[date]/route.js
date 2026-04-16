@@ -16,11 +16,23 @@ export async function GET(req, context) {
         },
         lesson: true,
       },
-      orderBy: {
-        pickUpTime: "asc",
-      },
+      orderBy: [
+        {
+          pickUpTime: "asc", // nulls will come first
+        },
+        {
+          student: {
+            lastName: "asc",
+          },
+        },
+        {
+          student: {
+            firstName: "asc",
+          },
+        },
+      ],
     });
-
+    
     const enriched = visits.map((visit) => {
       let pickupLat = null;
       let pickupLon = null;

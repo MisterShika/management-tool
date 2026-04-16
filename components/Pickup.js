@@ -73,23 +73,40 @@ export default function Pickup() {
   /* ----------------------------------
      DERIVE MAP DATA FROM dayData
   ---------------------------------- */
-  useEffect(() => {
-    const mapped = dayData
-      .filter(
-        (visit) =>
-          visit.pickupCoords?.lat &&
-          visit.pickupCoords?.lon
-      )
-      .map((visit) => ({
-        name: visit.student.lastName,
-        lat: visit.pickupCoords.lat,
-        lon: visit.pickupCoords.lon,
-        color: visit.student.color
-      }));
+useEffect(() => {
+  const grouped = Object.values(
+    dayData.reduce((acc, visit) => {
+      const lat = visit.pickupCoords?.lat;
+      const lon = visit.pickupCoords?.lon;
 
-    setMapData(mapped);
-    console.log("Map Data:", mapped);
-  }, [dayData]);
+      if (lat == null || lon == null) return acc;
+
+      const key = `${lat}-${lon}`;
+
+      if (!acc[key]) {
+        acc[key] = {
+          lat,
+          lon,
+          pickUpLoc: visit.pickUpLoc,
+          students: [],
+        };
+      }
+
+      acc[key].students.push({
+        id: visit.student.id,
+        firstName: visit.student.firstName,
+        lastName: visit.student.lastName,
+        pickUpLoc: visit.pickUpLoc,
+        schoolName: visit.student.school.schoolName,
+        color: visit.student.color,
+      });
+
+      return acc;
+    }, {})
+  );
+
+  setMapData(grouped);
+}, [dayData]);
 
   /* ----------------------------------
      UPDATE LOCATION (REFETCH REQUIRED)
