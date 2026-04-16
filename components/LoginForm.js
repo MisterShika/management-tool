@@ -53,10 +53,16 @@ export default function LoginForm() {
           ID番号
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white uppercase"
           id="idnumber"
           type="text"
-          onChange={(e) => setUserCode(e.target.value.replace(/\D/g, ''))}
+          onChange={(e) =>
+            setUserCode(
+              e.target.value
+                .replace(/[^a-zA-Z0-9]/g, '')
+                .toUpperCase()
+            )
+          }
           value={userCode}
           maxLength={4}
           placeholder="ID番号を入力"
@@ -68,13 +74,17 @@ export default function LoginForm() {
           暗証番号
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline bg-white"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline bg-white uppercase"
           id="password"
           type="password"
           maxLength={4}
-            onChange={(e) =>
-                setPin(e.target.value.replace(/[^a-zA-Z0-9]/g, ''))
-            }
+          onChange={(e) =>
+            setPin(
+              e.target.value
+                .replace(/[^a-zA-Z0-9]/g, '')
+                .toUpperCase()
+            )
+          }
           value={pin}
           placeholder="暗証番号を入力"
         />

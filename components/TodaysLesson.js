@@ -29,6 +29,12 @@ export default function TodaysLesson () {
 
     if (loading) return <Loading />;
 
+    const statusColors = {
+    COMPLETED: "bg-green-500 hover:bg-green-600",
+    CANCELLED: "bg-red-500 hover:bg-red-600",
+    PLANNED: "bg-blue-500 hover:bg-blue-600",
+    };
+
     return (
         <div 
             className="mt-2 border border-gray-200"
@@ -39,11 +45,18 @@ export default function TodaysLesson () {
                         className="flex justify-between items-center p-1 border-gray-200 border-b last:border-b-0" 
                     >
                         {/** Left Side */}
-                        <div>
+                        <div>  
+                            <span
+                            className="w-2 h-2 rounded-full inline-block mr-2"
+                            style={{ backgroundColor: visit.student.color }}
+                            ></span>
                             <Link 
                             className="text-blue-600 underline"
                             href={`/student/${visit.student.id}`}>
-                                <span>{visit.student.firstName} {visit.student.lastName}</span>
+                                <span>
+                                    <ruby>{visit.student.firstName}<rt>{visit.student.firstNameFurigana}</rt></ruby> &nbsp;
+                                    <ruby>{visit.student.lastName}<rt>{visit.student.lastNameFurigana}</rt></ruby>
+                                </span>
                             </Link>
                             <span
                                 className="px-2 "
@@ -59,11 +72,17 @@ export default function TodaysLesson () {
                             </span>
                         </div>
                         {/** Right Side */}
+
+                        
                         <div>
                             <Link href={`/visits/${visit.id}`}>
-                                <button className="p-1 py-0 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                    訪問を見る
-                                </button>
+                            <button
+                                className={`p-1 py-0 text-white rounded ${
+                                statusColors[visit.status] || "bg-gray-500"
+                                }`}
+                            >
+                                データを見る
+                            </button>
                             </Link>
                         </div>
                     </div>

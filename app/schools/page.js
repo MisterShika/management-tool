@@ -25,6 +25,13 @@ export default function SchoolsPage() {
 
     if (loading) {return <Loading />;}
 
+    const schoolTypeLabels = {
+        ELEMENTARY: "小学校",
+        MIDDLE: "中学校",
+        HIGH: "高校",
+        OTHER: "そのほか",
+    };
+
     return (
         <div className="flex flex-col w-full justify-center items-center">
             {/* Title and Button */}
@@ -49,7 +56,7 @@ export default function SchoolsPage() {
                                     className="flex odd:bg-rose-100 px-1 py-3 border-b border-gray-300 last:border-b-0"
                                 >
                                     <div className="flex w-[40%]">
-                                        {school.schoolType}
+                                        {schoolTypeLabels[school.schoolType]}
                                     </div>
                                     <div className="flex w-[40%]">
                                         {school.schoolName}

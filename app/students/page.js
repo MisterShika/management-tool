@@ -50,6 +50,14 @@ export default function Students() {
         <div className="w-full max-w-lg border">
           {students.map((student) => (
             <div key={student.id} className="flex odd:bg-green-100 px-1 py-3 border-b border-gray-300 last:border-b-0">
+              <div
+                className="flex items-center"
+              >
+                <span
+                className="w-2 h-2 rounded-full inline-block mx-1"
+                style={{ backgroundColor: student.color }}
+              ></span>
+              </div>
               {/* Name Container */}
               <div className="flex w-[40%]">
                 <div className="flex flex-col px-1 w-1/2">

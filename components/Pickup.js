@@ -157,8 +157,6 @@ export default function Pickup() {
   ---------------------------------- */
   return (
     <div>
-      <h1 className="text-xl font-bold">Today's Data</h1>
-
       {/* STUDENT LIST */}
       <div>
         {dayData.map((visit) => (
