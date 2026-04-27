@@ -71,7 +71,7 @@ export default function AddVisit({ defaultDate, onClose, onSubmitSuccess }) {
           <option value="">- 学生を選択 -</option>
           {students.map((s) => (
             <option key={s.id} value={s.id}>
-              {s.lastName} {s.firstName}
+              {s.lastName}({s.lastNameFurigana}) {s.firstName}({s.firstNameFurigana})
             </option>
           ))}
         </select>

@@ -112,6 +112,22 @@ export default function VisitPage() {
     }
   };
 
+  const handleDeleteCompletion = async (completionId) => {
+    if (!confirm("この授業完了データを削除しますか？")) return;
+    try {      const res = await fetch(`/api/lessonCompletions`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: completionId }),
+      });
+      if (!res.ok) throw new Error("Failed to delete completion");
+      alert("授業完了データが削除されました。");
+      fetchVisit();  // Refresh visit data to reflect changes
+    } catch (err) {
+      console.error("Error deleting completion:", err);
+      alert("授業完了データの削除に失敗しました。");
+    }
+  };
+
   if (loading) return <Loading />;
   if (!visit) return <p>訪問データが見つかりません。</p>;
 
@@ -242,6 +258,13 @@ export default function VisitPage() {
                             >
                               {completion.lesson.name}
                             </Link>
+                            <div
+                              className="inline-block bg-red-500 hover:bg-red-600 text-white text-sm px-2 ml-1 rounded cursor-pointer"
+                              // onClick={() => console.log(completion.lesson.id)}  
+                              onClick={() => handleDeleteCompletion(completion.id)}
+                            >
+                              X
+                            </div>
                           </div>
                         ))}
                       </div>
