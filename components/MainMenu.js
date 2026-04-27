@@ -41,6 +41,11 @@ export default function MainMenu() {
                 link="/pickup"
                 buttonColor="bg-amber-600"
             />
+            <MenuButton 
+                buttonTitle="報告"
+                link="/information"
+                buttonColor="bg-amber-600"
+            />
             
             { // This is maybe unecessary since this is accessible from other page but keeping just in case
             //<MenuButton 

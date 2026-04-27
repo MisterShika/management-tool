@@ -10,7 +10,7 @@ export default function Header() {
     const isHome = pathname === "/";
 
     return(
-        <header className="flex flex-col items-center py-4 text-center w-full bg-yellow-400 mb-6 border-b border-yellow-500">
+        <header className="print:hidden flex flex-col items-center py-4 text-center w-full bg-yellow-400 mb-6 border-b border-yellow-500">
             <Link 
             className="inline-block"
             href="/">
