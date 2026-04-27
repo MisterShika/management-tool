@@ -25,6 +25,7 @@ export default function CalendarPage() {
           id: v.id,
           date: v.date,
           title: `${v.student.lastName}`,
+          status: v.status,
           color: v.student.color || "#000000",
         }))
       );
@@ -62,6 +63,11 @@ export default function CalendarPage() {
     );
   };
 
+const statusBg = {
+  COMPLETED: "bg-green-200",
+  CANCELLED: "bg-red-200",
+};
+
   return (
     <div className="p-4 flex flex-col items-center">
       <h2 className="mb-4 text-2xl font-bold">カレンダー</h2>
@@ -89,7 +95,9 @@ export default function CalendarPage() {
                       <li
                         onClick={() => router.push(`/visits/${e.id}`)}
                         key={e.id}
-                        className="text-xs rounded px-1 mb-1 mr-1 bg-white text-black cursor-pointer hover:bg-emerald-100 transition"
+                        className={`text-xs rounded px-1 mb-1 mr-1 text-black cursor-pointer transition ${
+                          statusBg[e.status] || "bg-white"
+                        }`}
                         style={{ border: `2px solid ${e.color}` }}
                       >
                         {e.title}
