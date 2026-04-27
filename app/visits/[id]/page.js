@@ -5,6 +5,8 @@ import Link from "next/link";
 import Loading from "@/components/Loading";
 import ConnectLesson from "@/components/ConnectLesson";
 import ConnectReport from "@/components/ConnectReport";
+import { useUser } from "@/components/UserContext";
+import EditReportModal from "@/components/EditReportModal";
 
 export default function VisitPage() {
   const { id } = useParams();
@@ -24,6 +26,12 @@ export default function VisitPage() {
   const [showLessonModal, setShowLessonModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
+  //Report edit things
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  
+
+  const user = useUser();
 
   const fetchVisit = async () => {
     try {
@@ -125,6 +133,22 @@ export default function VisitPage() {
     } catch (err) {
       console.error("Error deleting completion:", err);
       alert("授業完了データの削除に失敗しました。");
+    }
+  };
+
+  const handleDeleteReport = async (reportId) => {
+    if (!confirm("このレポートを削除しますか？")) return;
+    try {     const res = await fetch(`/api/dailyReports`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: reportId }),
+      });
+      if (!res.ok) throw new Error("Failed to delete report");
+      alert("レポートが削除されました。");
+      fetchVisit();  // Refresh visit data to reflect changes
+    } catch (err) {
+      console.error("Error deleting report:", err);
+      alert("レポートの削除に失敗しました。");
     }
   };
 
@@ -263,7 +287,7 @@ export default function VisitPage() {
                               // onClick={() => console.log(completion.lesson.id)}  
                               onClick={() => handleDeleteCompletion(completion.id)}
                             >
-                              X
+                              🗑
                             </div>
                           </div>
                         ))}
@@ -301,6 +325,29 @@ export default function VisitPage() {
                             </div>
                             <div>
                               {report.note}
+                            </div>
+                            <div>
+                              {
+                                user.id === report.addedBy.id && (
+                                  <div>
+                                    <span
+                                    className="inline-block bg-red-500 hover:bg-red-600 text-white text-sm px-2 ml-1 rounded cursor-pointer"
+                                    onClick={() => handleDeleteReport(report.id)}
+                                    >
+                                      🗑
+                                    </span>
+                                    <span
+                                      className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-1 ml-1 rounded cursor-pointer"
+                                        onClick={() => {
+                                          setSelectedReport(report);
+                                          setIsEditOpen(true);
+                                        }}
+                                    >
+                                      ✎
+                                    </span>
+                                  </div>
+                                )
+                              }
                             </div>
                           </div>
                         ))}
@@ -400,6 +447,18 @@ export default function VisitPage() {
             setShowReportModal(false)
             fetchVisit();     // <--- re-fetch page data!
           }} 
+        />
+      )}
+
+
+      {isEditOpen && selectedReport && (
+        <EditReportModal
+          report={selectedReport}
+          onClose={() => setIsEditOpen(false)}
+          onUpdated={() => {
+            setIsEditOpen(false);
+            fetchVisit(); // refresh data
+          }}
         />
       )}
     </div>

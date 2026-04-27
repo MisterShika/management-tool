@@ -51,3 +51,55 @@ export async function POST(req) {
     );
   }
 }
+
+export async function DELETE(req) {
+  try {
+    const body = await req.json();
+    const reportId = body.id;
+
+    if (!reportId) {
+      return NextResponse.json(
+        { error: "reportId is required" },
+        { status: 400 }
+      );
+    }
+
+    await prisma.dailyReport.delete({
+      where: { id: Number(reportId) },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting report:", err);
+    return NextResponse.json(
+      { error: "Failed to delete report" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(req) {
+  try {
+    const body = await req.json();
+    const { id, note } = body;
+
+    if (!id) {
+      return Response.json({ error: "id is required" }, { status: 400 });
+    }
+
+    const updated = await prisma.dailyReport.update({
+      where: { id: Number(id) },
+      data: {
+        ...(note !== undefined && { note }),
+      },
+    });
+
+    return Response.json(updated);
+  } catch (err) {
+    console.error("Error updating report:", err);
+    return Response.json(
+      { error: "Failed to update report" },
+      { status: 500 }
+    );
+  }
+}
