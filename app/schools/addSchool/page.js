@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Loading from '@/components/Loading';
 import Link from "next/link";
+import NavigationButtons from '@/components/NavigationButtons';
 
 export default function AddSchoolPage() {
     const [status, setStatus] = useState(null);
@@ -48,6 +49,7 @@ export default function AddSchoolPage() {
 
     return (
         <div className="max-w-md mx-auto mt-5 mb-5 p-6 bg-white rounded-2xl shadow">
+            <NavigationButtons />
             <h1 className="text-xl font-semibold mb-4">学校を追加</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Loading from '@/components/Loading';
 import { useUser } from "@/components/UserContext";
+import NavigationButtons from '@/components/NavigationButtons';
 
 export default function Staff() {
   const [users, setUsers] = useState([]);
@@ -30,6 +31,7 @@ export default function Staff() {
 
   return (
     <div className="flex flex-col w-full justify-center items-center">
+      <NavigationButtons />
       {/* Title and Button */}
       <div className="w-full max-w-lg flex mb-5 justify-around">
           <h2 className="text-2xl font-semibold">在スタッフ</h2>

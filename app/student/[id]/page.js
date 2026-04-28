@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import Loading from '@/components/Loading';
 import StudentLessonDone from "@/components/StudentLessonDone";
 import Link from "next/link";
+import NavigationButtons from '@/components/NavigationButtons';
 
 export default function StudentPage() {
   const { id } = useParams();
@@ -133,6 +134,7 @@ export default function StudentPage() {
   // --------------------------------------------
   return (
     <div className="max-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
+      <NavigationButtons />
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">生徒情報（ID: {student.id}）</h2>
         {!editing && (

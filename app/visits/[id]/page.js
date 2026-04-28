@@ -7,6 +7,7 @@ import ConnectLesson from "@/components/ConnectLesson";
 import ConnectReport from "@/components/ConnectReport";
 import { useUser } from "@/components/UserContext";
 import EditReportModal from "@/components/EditReportModal";
+import NavigationButtons from "@/components/NavigationButtons";
 
 export default function VisitPage() {
   const { id } = useParams();
@@ -157,6 +158,7 @@ export default function VisitPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
+      <NavigationButtons />
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-xl font-bold">

@@ -44,7 +44,7 @@ export default function MainMenu() {
             <MenuButton 
                 buttonTitle="報告"
                 link="/information"
-                buttonColor="bg-amber-600"
+                buttonColor="bg-teal-600"
             />
             
             { // This is maybe unecessary since this is accessible from other page but keeping just in case

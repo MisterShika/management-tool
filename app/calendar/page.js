@@ -6,6 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import AddVisit from "@/components/AddVisit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import NavigationButtons from '@/components/NavigationButtons';
 
 export default function CalendarPage() {
   const router = useRouter();
@@ -70,6 +71,7 @@ const statusBg = {
 
   return (
     <div className="p-4 flex flex-col items-center">
+      <NavigationButtons />
       <h2 className="mb-4 text-2xl font-bold">カレンダー</h2>
 
       <Calendar
@@ -179,6 +181,7 @@ const statusBg = {
           flex-basis: 0%;
         }
       `}</style>
+      <NavigationButtons />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Loading from '@/components/Loading';
 import Link from "next/link";
+import NavigationButtons from '@/components/NavigationButtons';
 
 export default function Lessons() {
   const [lessons, setLessons] = useState([]);
@@ -48,6 +49,7 @@ export default function Lessons() {
 
   return (
     <div className="flex flex-col w-full justify-center items-center">
+      <NavigationButtons />
       {/* Title and Button */}
       <div className="w-full max-w-lg flex mb-5 justify-around">
         <h2 className="text-2xl font-semibold">レッスン一覧</h2>

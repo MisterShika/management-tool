@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from "react";
+import NavigationButtons from "@/components/NavigationButtons";
 
 export default function Information() {
     const [students, setStudents] = useState([]);
@@ -42,8 +43,9 @@ export default function Information() {
     };
 
     return (
-        <div>
+        <div className="print:width-full">
             <div className="print:hidden max-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
+                <NavigationButtons />
                 <h2 className="text-xl font-bold">情報</h2>
                 <form onSubmit={handleSubmit}>
                     <select
@@ -80,7 +82,7 @@ export default function Information() {
             </div>
 
             {reportData.length > 0 && (
-            <div className="mt-6 print:bg-white">
+            <div className="mt-6 print:bg-white print:width-full">
                 <h3 className="text-lg font-bold mb-2">レポート</h3>
 
                 {reportData.map((visit) => (

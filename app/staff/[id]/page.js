@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Loading from '@/components/Loading';
+import NavigationButtons from '@/components/NavigationButtons';
 
 export default function UserPage() {
   const { id } = useParams();
@@ -82,6 +83,7 @@ export default function UserPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 bg-white rounded-lg shadow">
+      <NavigationButtons />
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">スタッフ情報</h2>
         {!editing && (
