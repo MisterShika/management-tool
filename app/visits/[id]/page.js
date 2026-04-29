@@ -323,32 +323,39 @@ export default function VisitPage() {
                         {visit.dailyReports.map((report) => (
                           <div key={report.id}>
                             <div>
-                              {report.addedBy.lastName} {report.addedBy.firstName} - {new Date(report.createdAt).toLocaleDateString()}
+                              {report.addedBy?.lastName && report.addedBy?.firstName
+                                ? `${report.addedBy.lastName} ${report.addedBy.firstName}`
+                                : "旧データ"}
+                              {" - "}
+                              {new Date(report.createdAt).toLocaleDateString()}
                             </div>
                             <div>
                               {report.note}
                             </div>
                             <div>
                               {
-                                user.id === report.addedBy.id && (
+                                (
+                                  !report.addedById && user.access === "ADMIN"
+                                ) || user.id === report.addedBy?.id ? (
                                   <div>
                                     <span
-                                    className="inline-block bg-red-500 hover:bg-red-600 text-white text-sm px-2 ml-1 rounded cursor-pointer"
-                                    onClick={() => handleDeleteReport(report.id)}
+                                      className="inline-block bg-red-500 hover:bg-red-600 text-white text-sm px-2 ml-1 rounded cursor-pointer"
+                                      onClick={() => handleDeleteReport(report.id)}
                                     >
                                       🗑
                                     </span>
+
                                     <span
                                       className="inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm px-1 ml-1 rounded cursor-pointer"
-                                        onClick={() => {
-                                          setSelectedReport(report);
-                                          setIsEditOpen(true);
-                                        }}
+                                      onClick={() => {
+                                        setSelectedReport(report);
+                                        setIsEditOpen(true);
+                                      }}
                                     >
                                       ✎
                                     </span>
                                   </div>
-                                )
+                                ) : null
                               }
                             </div>
                           </div>

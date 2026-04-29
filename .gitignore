@@ -42,3 +42,7 @@ next-env.d.ts
 
 /app/generated/prisma
 /db-backup
+/old-data-from-google
+
+# Import old data script
+importOldData.js
