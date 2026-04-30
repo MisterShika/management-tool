@@ -25,7 +25,7 @@ export async function GET() {
         color: true,
       },
       orderBy: {
-        lastNameFurigana: "asc",
+        id: "asc",
       },
     });
 

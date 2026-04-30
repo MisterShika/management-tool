@@ -10,6 +10,12 @@ export default function Information() {
     const [reportData, setReportData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const visitStatusLabels = {
+        PLANNED: "予定",
+        COMPLETED: "完了",
+        CANCELLED: "キャンセル",
+    };
+
     useEffect(() => {
         async function fetchStudents() {
             try {
@@ -88,13 +94,13 @@ export default function Information() {
                 {reportData.map((visit) => (
                 <div
                     key={visit.id}
-                    className="border p-3 print:border-black"
+                    className="p-3"
                 >
                     <div className="font-semibold">
                     {new Date(visit.date).toLocaleDateString()}
                     </div>
 
-                    <div>ステータス: {visit.status}</div>
+                    <div>ステータス: {visitStatusLabels[visit.status]}</div>
 
                     {visit.lesson && (
                     <div>レッスン: {visit.lesson.name}</div>
@@ -116,7 +122,6 @@ export default function Information() {
                         メモ:
                         <ul className="ml-3">
                         {visit.dailyReports.map((r) => (
-                            console.log(r),
                             <li key={r.id}>・{r.note}</li>
                         ))}
                         </ul>
