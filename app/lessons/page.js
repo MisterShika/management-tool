@@ -92,7 +92,7 @@ export default function Lessons() {
               {/* Title and Link */}
               <div className="flex w-[80%] justify-between">
                 <div className="">
-                  {lesson.name}
+                  {lesson.id}:{lesson.name}
                 </div>
                 {lesson.url && (
                   <div className="">

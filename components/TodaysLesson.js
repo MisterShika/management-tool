@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import Link from 'next/link';
 
-export default function TodaysLesson () {
+export default function TodaysLesson ({ date }) {
     const [loading, setLoading] = useState(true);
     const [lessonData, setLessonData] = useState([]);
+    const todaysDate = date ?? new Date().toISOString().split("T")[0];
 
     useEffect(() => {
         const fetchTodayData = async () => {
-            const todaysDate = new Date().toISOString().split("T")[0];
 
             try {
                 const response = await fetch(`/api/allVisits/byDay/${todaysDate}`);
@@ -51,7 +51,7 @@ export default function TodaysLesson () {
                             style={{ backgroundColor: visit.student.color }}
                             ></span>
                             <Link 
-                            className="text-blue-600 underline"
+                            className="text-blue-600 underline text-sm"
                             href={`/student/${visit.student.id}`}>
                                 <span>
                                     <ruby>{visit.student.firstName}<rt>{visit.student.firstNameFurigana}</rt></ruby> &nbsp;
@@ -59,15 +59,15 @@ export default function TodaysLesson () {
                                 </span>
                             </Link>
                             <span
-                                className="px-2 "
+                                className="px-1 "
                             >
-                                :
+                                -
                             </span>
                             <span>
                                 {
                                     visit.lesson?.id
-                                        ? <Link href={`/lessons/${visit.lesson.id}`} className="text-blue-600 underline">{visit.lesson.name}</Link>
-                                        : "レッスン未設定"
+                                        ? <Link href={`/lessons/${visit.lesson.id}`} className="text-blue-600 underline text-sm">{visit.lesson.id}:{visit.lesson.name}</Link>
+                                        : <span className="text-gray-500 text-xs">未設定</span>
                                 }
                             </span>
                         </div>
@@ -77,7 +77,7 @@ export default function TodaysLesson () {
                         <div>
                             <Link href={`/visits/${visit.id}`}>
                             <button
-                                className={`p-1 py-0 text-white rounded ${
+                                className={`p-1 py-0 text-white rounded w-[105px] ml-1  ${
                                 statusColors[visit.status] || "bg-gray-500"
                                 }`}
                             >

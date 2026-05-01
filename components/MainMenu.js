@@ -46,6 +46,16 @@ export default function MainMenu() {
                 link="/information"
                 buttonColor="bg-teal-600"
             />
+            <MenuButton 
+                buttonTitle="今週"
+                link="/this-week"
+                buttonColor="bg-pink-800"
+            />
+            <MenuButton 
+                buttonTitle="来週"
+                link="/next-week"
+                buttonColor="bg-fuchsia-300"
+            />
             
             { // This is maybe unecessary since this is accessible from other page but keeping just in case
             //<MenuButton 

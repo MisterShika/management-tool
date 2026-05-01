@@ -10,6 +10,13 @@ export default function Information() {
     const [reportData, setReportData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [reportStartDate, setReportStartDate] = useState("");
+    const [reportEndDate, setReportEndDate] = useState("");
+    const [reportStudentFirstName, setReportStudentFirstName] = useState("");
+    const [reportStudentLastName, setReportStudentLastName] = useState("");
+    const [reportStudentFirstNameFurigana, setReportStudentFirstNameFurigana] = useState("");
+    const [reportStudentLastNameFurigana, setReportStudentLastNameFurigana] = useState("");
+
     const visitStatusLabels = {
         PLANNED: "予定",
         COMPLETED: "完了",
@@ -46,6 +53,13 @@ export default function Information() {
 
         const data = await res.json();
         setReportData(data);
+        setReportStartDate(startDate);
+        setReportEndDate(endDate);
+        const selectedStudent = students.find((s) => s.id === parseInt(studentId));
+        setReportStudentLastName(selectedStudent.lastName);
+        setReportStudentFirstName(selectedStudent.firstName);
+        setReportStudentLastNameFurigana(selectedStudent.lastNameFurigana);
+        setReportStudentFirstNameFurigana(selectedStudent.firstNameFurigana);
     };
 
     return (
@@ -89,7 +103,31 @@ export default function Information() {
 
             {reportData.length > 0 && (
             <div className="mt-6 print:bg-white print:width-full">
-                <h3 className="text-lg font-bold mb-2">レポート</h3>
+                <h2 className="text-lg font-bold mb-2">
+                    教育の訪問レポート
+                </h2>
+                {reportStudentLastName && (
+                <h2>
+                    <ruby>
+                    {reportStudentLastName}
+                    <rt>{reportStudentLastNameFurigana}</rt>
+                    </ruby>{" "}
+                    <ruby>
+                    {reportStudentFirstName}
+                    <rt>{reportStudentFirstNameFurigana}</rt>
+                    </ruby>
+                </h2>
+                )}
+                {reportStartDate && (
+                <span>
+                    {new Date(reportStartDate).toLocaleDateString()}から
+                </span>
+                )}
+                {reportEndDate && (
+                <span>
+                    {new Date(reportEndDate).toLocaleDateString()}まで
+                </span>
+                )}
 
                 {reportData.map((visit) => (
                 <div
