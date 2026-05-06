@@ -15,21 +15,16 @@ export async function GET(req, context) {
           },
         },
         lesson: true,
+        completions: {
+          include: {
+            lesson: true,
+          },
+        },
       },
       orderBy: [
-        {
-          pickUpTime: "asc", // nulls will come first
-        },
-        {
-          student: {
-            lastName: "asc",
-          },
-        },
-        {
-          student: {
-            firstName: "asc",
-          },
-        },
+        { pickUpTime: "asc" },
+        { student: { lastName: "asc" } },
+        { student: { firstName: "asc" } },
       ],
     });
     

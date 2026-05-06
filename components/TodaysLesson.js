@@ -30,9 +30,9 @@ export default function TodaysLesson ({ date }) {
     if (loading) return <Loading />;
 
     const statusColors = {
-    COMPLETED: "bg-green-500 hover:bg-green-600",
-    CANCELLED: "bg-red-500 hover:bg-red-600",
-    PLANNED: "bg-blue-500 hover:bg-blue-600",
+        COMPLETED: "bg-green-500 hover:bg-green-600",
+        CANCELLED: "bg-red-500 hover:bg-red-600",
+        PLANNED: "bg-blue-500 hover:bg-blue-600",
     };
 
     return (
@@ -40,9 +40,16 @@ export default function TodaysLesson ({ date }) {
             className="mt-2 border border-gray-200"
         >
             {
+                lessonData.length === 0 ? (
+                    <p className="text-center text-gray-500 p-4">予定がありません</p>
+                ) : (
+                    <p className="text-right text-xs px-2 py-1">{lessonData.length}人</p>
+                )
+            }
+            {
                 lessonData.map((visit) => (
                     <div key={visit.id}
-                        className="flex justify-between items-center p-1 border-gray-200 border-b last:border-b-0" 
+                        className="flex justify-between items-left xl:items-center p-1 border-gray-200 border-b last:border-b-0 flex-col xl:flex-row" 
                     >
                         {/** Left Side */}
                         <div>  
@@ -65,9 +72,36 @@ export default function TodaysLesson ({ date }) {
                             </span>
                             <span>
                                 {
-                                    visit.lesson?.id
-                                        ? <Link href={`/lessons/${visit.lesson.id}`} className="text-blue-600 underline text-sm">{visit.lesson.id}:{visit.lesson.name}</Link>
-                                        : <span className="text-gray-500 text-xs">未設定</span>
+                                visit.status === "COMPLETED" ? (
+                                    visit.completions.length > 0 ? (
+                                    <div className="text-sm space-y-1">
+                                        {visit.completions.map(c => (
+                                        <Link
+                                            key={c.id}
+                                            href={`/lessons/${c.lesson.id}`}
+                                            className="text-green-600 underline block"
+                                        >
+                                            {c.lesson.id}:{c.lesson.name}
+                                        </Link>
+                                        ))}
+                                    </div>
+                                    ) : (
+                                    <span className="text-gray-500 text-xs">完了データなし</span>
+                                    )
+                                ) : visit.status === "CANCELLED" ? (
+                                    <span className="text-gray-400 text-xs">キャンセル</span>
+                                ) : (
+                                    visit.lesson?.id ? (
+                                    <Link
+                                        href={`/lessons/${visit.lesson.id}`}
+                                        className="text-blue-600 underline text-sm"
+                                    >
+                                        {visit.lesson.id}:{visit.lesson.name}
+                                    </Link>
+                                    ) : (
+                                    <span className="text-gray-500 text-xs">未設定</span>
+                                    )
+                                )
                                 }
                             </span>
                         </div>
@@ -77,7 +111,7 @@ export default function TodaysLesson ({ date }) {
                         <div>
                             <Link href={`/visits/${visit.id}`}>
                             <button
-                                className={`p-1 py-0 text-white rounded w-[105px] ml-1  ${
+                                className={`p-1 py-0 text-white rounded w-[105px] my-1 xl:my-0 xl:ml-1 cursor-pointer ${
                                 statusColors[visit.status] || "bg-gray-500"
                                 }`}
                             >
