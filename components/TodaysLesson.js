@@ -49,7 +49,14 @@ export default function TodaysLesson ({ date }) {
             {
                 lessonData.map((visit) => (
                     <div key={visit.id}
-                        className="flex justify-between items-left xl:items-center p-1 border-gray-200 border-b last:border-b-0 flex-col xl:flex-row" 
+                        className="flex justify-between items-left xl:items-center p-1 border-gray-200 border-b last:border-b-0 flex-col xl:flex-row bg-gradient-to-b bg-gray-100" 
+                        // style={{
+                        //     backgroundImage: `linear-gradient(
+                        //     to bottom,
+                        //     color-mix(in srgb, ${visit.student.color} 40%, white),
+                        //     white
+                        //     )`
+                        // }}
                     >
                         {/** Left Side */}
                         <div>  
@@ -70,7 +77,7 @@ export default function TodaysLesson ({ date }) {
                             >
                                 -
                             </span>
-                            <span>
+                            <span className="block">
                                 {
                                 visit.status === "COMPLETED" ? (
                                     visit.completions.length > 0 ? (
@@ -94,7 +101,7 @@ export default function TodaysLesson ({ date }) {
                                     visit.lesson?.id ? (
                                     <Link
                                         href={`/lessons/${visit.lesson.id}`}
-                                        className="text-blue-600 underline text-sm"
+                                        className="text-blue-600 underline text-sm "
                                     >
                                         {visit.lesson.id}:{visit.lesson.name}
                                     </Link>

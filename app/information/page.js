@@ -8,7 +8,6 @@ export default function Information() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [reportData, setReportData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
     const [reportStartDate, setReportStartDate] = useState("");
     const [reportEndDate, setReportEndDate] = useState("");
@@ -103,65 +102,90 @@ export default function Information() {
 
             {reportData.length > 0 && (
             <div className="mt-6 print:bg-white print:width-full">
-                <h2 className="text-lg font-bold mb-2">
-                    教育の訪問レポート
-                </h2>
-                {reportStudentLastName && (
-                <h2>
-                    <ruby>
-                    {reportStudentLastName}
-                    <rt>{reportStudentLastNameFurigana}</rt>
-                    </ruby>{" "}
-                    <ruby>
-                    {reportStudentFirstName}
-                    <rt>{reportStudentFirstNameFurigana}</rt>
-                    </ruby>
-                </h2>
-                )}
-                {reportStartDate && (
-                <span>
-                    {new Date(reportStartDate).toLocaleDateString()}から
-                </span>
-                )}
-                {reportEndDate && (
-                <span>
-                    {new Date(reportEndDate).toLocaleDateString()}まで
-                </span>
-                )}
+                <div className="flex flex-row">
+                    <div>
+                        <h2 className="text-2xl font-bold mb-2">
+                            教育の訪問レポート
+                        </h2>
+                        {reportStudentLastName && (
+                        <h2 className="text-2xl my-1">
+                            <ruby>
+                            {reportStudentLastName}
+                            <rt>{reportStudentLastNameFurigana}</rt>
+                            </ruby>{" "}
+                            <ruby>
+                            {reportStudentFirstName}
+                            <rt>{reportStudentFirstNameFurigana}</rt>
+                            </ruby>
+                        </h2>
+                        )}
+                        {reportStartDate && (
+                        <span className="my-1 inline-block">
+                            <span className="text-gray-600">{new Date(reportStartDate).toLocaleDateString()}</span><span className="font-bold mx-2">から</span>
+                        </span>
+                        )}
+                        {reportEndDate && (
+                        <span className="my-1 inline-block">
+                            <span className="text-gray-600">{new Date(reportEndDate).toLocaleDateString()}</span><span className="font-bold mx-2">まで</span>
+                        </span>
+                        )}
+                    </div>
+                    <div>
+                        <button
+                        onClick={() => window.print()}
+                        className="print:hidden ml-10 px-2 py-1 bg-blue-500 text-white rounded cursor-pointer"
+                        >
+                        印刷
+                        </button>
+                    </div>
+                </div>
 
                 {reportData.map((visit) => (
                 <div
                     key={visit.id}
-                    className="p-3"
+                    className="p-3 border-t border-gray-200"
                 >
-                    <div className="font-semibold">
-                    {new Date(visit.date).toLocaleDateString()}
+                    <div className="font-semibold text-xl my-1">
+                        {new Date(visit.date).toLocaleDateString()}
                     </div>
 
-                    <div>ステータス: {visitStatusLabels[visit.status]}</div>
+                    <div><span className="underline font-bold text-lg">ステータス:</span> <span className="text-gray-600">{visitStatusLabels[visit.status]}</span></div>
 
                     {visit.lesson && (
-                    <div>レッスン: {visit.lesson.name}</div>
+                    <div>
+                        <div><span className="underline font-bold text-lg">レッスン:</span> <span className="text-gray-600">{visit.lesson.name}</span></div>
+                        <div><span className="underline font-bold text-lg">内容:</span> <span className="text-gray-600">{visit.lesson.description}</span></div>
+                    </div>
                     )}
 
                     {visit.completions.length > 0 && (
                     <div>
-                        完了:
-                        <ul className="list-disc ml-5">
+                        <span className="underline font-bold text-lg">完了:</span>
+                        <ul className="ml-5">
                         {visit.completions.map((c) => (
-                            <li key={c.id}>{c.lesson.name}</li>
+                            <li key={c.id} className="text-gray-600">・{c.lesson.name}</li>
                         ))}
                         </ul>
                     </div>
                     )}
 
-                    {visit.dailyReports.length > 0 && (
+                    {visit.dailyReports?.some(r => r.note) && (
                     <div>
-                        メモ:
+                        <span className="underline font-bold text-lg">メモ:</span>
                         <ul className="ml-3">
-                        {visit.dailyReports.map((r) => (
-                            <li key={r.id}>・{r.note}</li>
-                        ))}
+                        {visit.dailyReports
+                            .filter(r => r.note?.trim())
+                            .map((r) => {
+                            const name = r.addedBy
+                            ? `${r.addedBy.lastName} ${r.addedBy.firstName}`
+                            : "不明";
+
+                            return (
+                                <li key={r.id}>
+                                    ・<strong>{name}:</strong> <span className="text-gray-600">{r.note}</span>
+                                </li>
+                            );
+                        })}
                         </ul>
                     </div>
                     )}

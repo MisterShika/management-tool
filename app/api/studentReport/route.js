@@ -24,7 +24,16 @@ export async function POST(req) {
     },
     include: {
       lesson: true,
-      dailyReports: true,
+      dailyReports: {
+        include: {
+          addedBy: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      },
       completions: {
         include: {
           lesson: true,
