@@ -5,8 +5,9 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import AddVisit from "@/components/AddVisit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import NavigationButtons from '@/components/NavigationButtons';
+import Link from 'next/link';
 
 export default function CalendarPage() {
   const router = useRouter();
@@ -69,6 +70,14 @@ const statusBg = {
   CANCELLED: "bg-red-200",
 };
 
+  const formatLocalDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className="p-4 flex flex-col items-center">
       <NavigationButtons />
@@ -109,7 +118,15 @@ const statusBg = {
                 )}
               </div>
 
-              <span className="addEventSpan flex w-full justify-end">
+              <span className="addEventSpan flex w-full justify-between">
+                <span>
+                  <Link 
+                    href={`/day/${formatLocalDate(tileDate)}`}
+                    className="w-4 h-4 bg-emerald-500 flex items-center justify-center rounded-full cursor-pointer"
+                  >
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="text-white text-sm" />
+                  </Link>
+                </span>
                 <span
                   onClick={() => handleOpenAddModal(tileDate)}
                   className="w-4 h-4 bg-emerald-500 flex items-center justify-center rounded-full cursor-pointer"

@@ -175,7 +175,7 @@ useEffect(() => {
   return (
     <div>
       {/* STUDENT LIST */}
-      <div>
+      <div className="">
         {dayData.map((visit) => (
           <div
             key={visit.id}

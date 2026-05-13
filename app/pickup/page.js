@@ -9,9 +9,13 @@ export default function Mukae() {
     <div>
       <NavigationButtons />
       <h1 className="text-xl font-bold">今日のスケージュール</h1>
-      <div>
-        <Pickup />
-        <TodaysLesson />
+      <div className="flex flex-row">
+        <div>
+          <Pickup />
+        </div>
+        <div>
+          <TodaysLesson />
+        </div>
       </div>
       <NavigationButtons />
     </div>
