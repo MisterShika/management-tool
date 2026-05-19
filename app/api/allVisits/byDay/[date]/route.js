@@ -23,8 +23,7 @@ export async function GET(req, context) {
       },
       orderBy: [
         { pickUpTime: "asc" },
-        { student: { lastName: "asc" } },
-        { student: { firstName: "asc" } },
+        { student: { id: "asc" } },
       ],
     });
     

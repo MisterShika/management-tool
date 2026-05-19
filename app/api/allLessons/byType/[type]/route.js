@@ -17,7 +17,7 @@ export async function GET(request, context) {
         type,
       },
       orderBy: {
-        name: 'asc',
+        id: 'asc',
       },
       select: {
         id: true,

@@ -70,6 +70,7 @@ model Student {
   studentLon        String?
   isActive          Boolean            @default(true) // indicates if the student is currently active
   completions       LessonCompletion[]
+  level             Int?
 }
 
 model School {
@@ -150,6 +151,7 @@ model Lesson {
   isActive    Boolean            @default(true) // Lesson is archived or not
   visits      Visit[] // back-relation
   completions LessonCompletion[] // back-relation for tracking completions
+  difficulty  Int?
 }
 
 /// Connects lessons to visits for historical tracking (optional)

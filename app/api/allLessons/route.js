@@ -9,7 +9,7 @@ export async function GET() {
         isActive: true,
       },
       orderBy: {
-        name: 'asc',
+        id: 'asc',
       },
       select: {
         id: true,

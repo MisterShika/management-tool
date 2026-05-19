@@ -414,7 +414,7 @@ export default function VisitPage() {
                           <option value="">選択してください</option>
                           {lessonOptions.map((lesson) => (
                             <option key={lesson.id} value={lesson.id}>
-                              {lesson.name}
+                              {lesson.id}: {lesson.name}
                             </option>
                           ))}
                         </select>
